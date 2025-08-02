@@ -1,10 +1,7 @@
-import { GestureHandlerRootView } from "react-native-gesture-handler";
-import { Drawer } from "expo-router/drawer";
-import { Ionicons } from "@expo/vector-icons";
 import { AuthProvider, useAuth } from "@/context/AuthContext";
 import { useEffect } from "react";
 import { supabase } from "@/lib/supabase";
-import { router } from "expo-router";
+import { router, Stack } from "expo-router";
 
 export default function RootLayout() {
   return (
@@ -29,87 +26,11 @@ function MainLayout() {
     });
   }, []);
   return (
-    <GestureHandlerRootView style={{ flex: 1 }}>
-      <Drawer
-        screenOptions={{
-          headerShown: false,
-          drawerActiveBackgroundColor: "transparent",
-          drawerInactiveBackgroundColor: "transparent",
-          drawerInactiveTintColor: "#777",
-          drawerActiveTintColor: "#FFF",
-          overlayColor: "transparent",
-          drawerStyle: {
-            backgroundColor: "#292929",
-            paddingTop: 32,
-            width: "50%",
-          },
-          drawerLabelStyle: {
-            marginLeft: 8,
-          },
-
-          sceneStyle: {
-            backgroundColor: "#292929",
-          },
-        }}
-      >
-        <Drawer.Screen
-          name="index"
-          options={{
-            drawerItemStyle: { display: "none" },
-            swipeEnabled: false, // impede gesto para abrir
-          }}
-        />
-
-        <Drawer.Screen
-          name="(auth)/signin/page"
-          options={{
-            drawerItemStyle: { display: "none" },
-            swipeEnabled: false, // impede gesto para abrir
-          }}
-        />
-
-        <Drawer.Screen
-          name="(auth)/signup/page"
-          options={{
-            drawerItemStyle: { display: "none" },
-            swipeEnabled: false, // impede gesto para abrir
-          }}
-        />
-
-        <Drawer.Screen
-          name="(panel)/homepage/page"
-          options={{
-            drawerLabel: "Inicio",
-            drawerIcon: ({ color }) => (
-              <Ionicons name="home" size={20} color={color} />
-            ),
-          }}
-        />
-
-        <Drawer.Screen
-          name="(panel)/bible/page"
-          options={{
-            drawerLabel: "Bíblia",
-            drawerIcon: ({ color }) => (
-              <Ionicons name="book" size={20} color={color} />
-            ),
-          }}
-        />
-
-        <Drawer.Screen
-          name="(panel)/about/page"
-          options={{
-            drawerLabel: "Sobre",
-            drawerIcon: ({ color }) => (
-              <Ionicons
-                name="information-circle-sharp"
-                size={20}
-                color={color}
-              />
-            ),
-          }}
-        />
-      </Drawer>
-    </GestureHandlerRootView>
+    // <Stack>
+    <Stack screenOptions={{ headerShown: false }}>
+      <Stack.Screen name="index" />
+      <Stack.Screen name="(auth)/signin/page" options={{ title: "Login" }} />
+      <Stack.Screen name="(auth)/signup/page" options={{ title: "Cadastro" }} />
+    </Stack>
   );
 }

@@ -37,7 +37,7 @@ export default function Login() {
   }
 
   function handleSignUp() {
-    router.replace("/(auth)/signup/page");
+    router.navigate("/signup/page");
   }
 
   return (
@@ -50,7 +50,7 @@ export default function Login() {
           }}
         />
         <View style={styles.user}>
-          <Text style={styles.hi}>Igreja Metodista Wesleyana</Text>
+          <Text style={styles.name}>Igreja Metodista Wesleyana</Text>
           <Text style={styles.username}>Cachoeira</Text>
         </View>
       </View>
@@ -120,7 +120,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
 
-  hi: {
+  name: {
     fontSize: 14,
     fontWeight: "300",
   },
@@ -143,7 +143,7 @@ const styles = StyleSheet.create({
   form: {
     width: "90%",
     marginTop: 40,
-    marginBottom: 48,
+    marginBottom: 36,
   },
 
   inputLabel: {
@@ -164,7 +164,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: 24,
     paddingVertical: 8,
     borderRadius: 10,
-    marginTop: -20,
   },
 
   loginLabel: {

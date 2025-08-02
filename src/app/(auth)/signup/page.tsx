@@ -23,7 +23,7 @@ export default function Signup() {
   async function handleSignUp() {
     setLoading(true);
 
-    const { data, error } = await supabase.auth.signUp({
+    const { error } = await supabase.auth.signUp({
       email: email,
       password: password,
       options: {
@@ -58,11 +58,28 @@ export default function Signup() {
               }}
             />
             <View style={styles.user}>
-              <Text style={styles.hi}>Igreja Metodista Wesleyana</Text>
+              <Text style={styles.name}>Igreja Metodista Wesleyana</Text>
               <Text style={styles.username}>Cachoeira</Text>
             </View>
           </View>
-          <Text style={styles.title}>Cadastro</Text>
+
+          <View
+            style={{
+              width: "100%",
+              flexDirection: "row",
+
+              marginTop: 30,
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            <TouchableOpacity onPress={() => router.back()}>
+              <Ionicons name="arrow-back" size={30} />
+            </TouchableOpacity>
+            <View style={{ flex: 1, alignItems: "center", marginLeft: -30 }}>
+              <Text style={styles.title}>Cadastro</Text>
+            </View>
+          </View>
 
           <View style={styles.form}>
             <Text style={styles.inputLabel}>Nome</Text>
@@ -90,13 +107,11 @@ export default function Signup() {
               secureTextEntry
             />
           </View>
-          <View style={styles.buttons}>
-            <TouchableOpacity style={styles.loginButton} onPress={handleSignUp}>
-              <Text style={styles.loginLabel}>
-                {loading ? "Carregando..." : "Cadastrar"}
-              </Text>
-            </TouchableOpacity>
-          </View>
+          <TouchableOpacity style={styles.loginButton} onPress={handleSignUp}>
+            <Text style={styles.loginLabel}>
+              {loading ? "Carregando..." : "Cadastrar"}
+            </Text>
+          </TouchableOpacity>
         </View>
       </ScrollView>
     </SafeAreaView>
@@ -134,7 +149,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
 
-  hi: {
+  name: {
     fontSize: 14,
     fontWeight: "300",
   },
@@ -145,18 +160,18 @@ const styles = StyleSheet.create({
   },
 
   title: {
+    flex: 1,
     textTransform: "uppercase",
     fontSize: 24,
     fontWeight: "900",
     color: "#000",
     lineHeight: 28,
-    marginTop: 60,
   },
 
   form: {
     width: "90%",
     marginTop: 40,
-    marginBottom: 48,
+    marginBottom: 36,
   },
 
   inputLabel: {
@@ -172,12 +187,6 @@ const styles = StyleSheet.create({
     marginBottom: 30,
   },
 
-  buttons: {
-    marginTop: -20,
-    gap: 16,
-    alignItems: "center",
-  },
-
   loginButton: {
     backgroundColor: "#0099ff",
     paddingHorizontal: 24,
@@ -185,28 +194,9 @@ const styles = StyleSheet.create({
     borderRadius: 10,
   },
 
-  loginButtonGoogle: {
-    backgroundColor: "#ff3f3f",
-    paddingHorizontal: 24,
-    paddingVertical: 8,
-    borderRadius: 10,
-    flexDirection: "row",
-    gap: 10,
-  },
-
   loginLabel: {
     color: "white",
     fontWeight: "900",
     fontSize: 16,
-  },
-
-  signinLabel: {
-    marginTop: 16,
-    fontWeight: "300",
-  },
-  signinLabel2: {
-    marginTop: 16,
-    fontWeight: "300",
-    color: "blue",
   },
 });
