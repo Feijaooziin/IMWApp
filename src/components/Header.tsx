@@ -1,5 +1,6 @@
 import { useAuth } from "@/context/AuthContext";
 import { supabase } from "@/lib/supabase";
+import { useSupabaseUser } from "@/context/UserContext";
 import { DrawerToggleButton } from "@react-navigation/drawer";
 import { useState } from "react";
 import {
@@ -20,17 +21,32 @@ interface HeaderProps {
 
 export function Header({ name, label, onPress }: HeaderProps) {
   const [modalVisible, setModalVisible] = useState(false);
-  const { setAuth, user } = useAuth();
+  const { setAuth } = useAuth();
+  const { profile } = useSupabaseUser();
 
   async function handleSignout() {
-    setModalVisible(false);
-    const { error } = await supabase.auth.signOut();
-    setAuth(null);
+    Alert.alert("Sair", "Deseja mesmo sair da sua conta?", [
+      {
+        text: "Não",
+        style: "cancel",
+      },
+      {
+        text: "Sim",
+        onPress: async () => {
+          setModalVisible(false);
+          const { error } = await supabase.auth.signOut();
+          setAuth(null);
 
-    if (error) {
-      Alert.alert("Error", "Erro ao sair da conta, tente novamente mais tarde");
-      return;
-    }
+          if (error) {
+            Alert.alert(
+              "Error",
+              "Erro ao sair da conta, tente novamente mais tarde"
+            );
+            return;
+          }
+        },
+      },
+    ]);
   }
   return (
     <View style={styles.container}>
@@ -67,15 +83,30 @@ export function Header({ name, label, onPress }: HeaderProps) {
       >
         <View style={styles.modalContainer}>
           <View style={styles.modalContent}>
-            <Text style={styles.modalTitle}>{user?.email}</Text>
-
+            <View
+              style={{
+                flexDirection: "row",
+                alignItems: "center",
+                paddingVertical: 8,
+                gap: 10,
+              }}
+            >
+              <Image
+                style={styles.avatarImage}
+                source={
+                  profile?.avatar_url
+                    ? { uri: profile.avatar_url }
+                    : require("@/assets/default-avatar.png")
+                }
+              />
+              <Text style={styles.modalUsername}>{profile?.name}</Text>
+            </View>
             <TouchableOpacity
               style={styles.modalOption}
               onPress={handleSignout}
             >
               <Text style={styles.modalOptionText}>Deslogar</Text>
             </TouchableOpacity>
-
             <TouchableOpacity
               style={styles.closeButton}
               onPress={() => setModalVisible(false)}
@@ -171,17 +202,23 @@ const styles = StyleSheet.create({
     borderRadius: 8,
   },
 
-  modalTitle: {
-    fontSize: 18,
+  modalUsername: {
+    fontSize: 24,
     fontWeight: "bold",
-    marginBottom: 15,
-    textAlign: "center",
+  },
+
+  avatarImage: {
+    width: 50,
+    height: 50,
+    borderRadius: 100,
+    marginRight: 8,
   },
 
   modalOption: {
     paddingVertical: 10,
     borderBottomWidth: 1,
     borderBottomColor: "#ccc",
+    // alignItems: "flex-end",
   },
 
   modalOptionText: {

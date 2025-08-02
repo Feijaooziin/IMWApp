@@ -18,8 +18,6 @@ export default function Login() {
 
   async function handleLogin() {
     setLoading(true);
-    setEmail("");
-    setPassword("");
 
     const { data, error } = await supabase.auth.signInWithPassword({
       email: email,
@@ -32,6 +30,8 @@ export default function Login() {
       return;
     }
 
+    setEmail("");
+    setPassword("");
     setLoading(false);
     router.replace("/(panel)/homepage/page");
   }
