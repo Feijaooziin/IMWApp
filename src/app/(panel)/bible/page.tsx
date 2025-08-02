@@ -118,6 +118,7 @@ export default function Bible() {
             <Picker
               selectedValue={livro?.codigo}
               style={styles.picker}
+              dropdownIconColor="#000"
               onValueChange={(itemValue) => {
                 const novoLivro =
                   livros.find((l) => l.codigo === itemValue) || livros[0];
@@ -136,6 +137,7 @@ export default function Bible() {
 
             <Text style={styles.label}>Capítulo</Text>
             <Picker
+              dropdownIconColor="#000"
               selectedValue={capitulo}
               style={styles.picker}
               onValueChange={(itemValue) => setCapitulo(itemValue)}
@@ -246,6 +248,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
     borderRadius: 5,
     marginVertical: 2,
+    color: "#000",
   },
   navButtons: {
     flexDirection: "row",
@@ -280,7 +283,7 @@ const styles = StyleSheet.create({
   },
   modalContainer: {
     flex: 1,
-    backgroundColor: "rgba(0,0,0,0.5)",
+    backgroundColor: "rgba(0,0,0,0.7)",
     justifyContent: "center",
     alignItems: "center",
   },
