@@ -60,6 +60,7 @@ export default function Login() {
         <Text style={styles.inputLabel}>Email</Text>
         <TextInput
           placeholder="Digite seu Email..."
+          placeholderTextColor="#000"
           style={styles.input}
           value={email}
           onChangeText={setEmail}
@@ -68,6 +69,7 @@ export default function Login() {
         <Text style={styles.inputLabel}>Senha</Text>
         <TextInput
           placeholder="Digite sua Senha..."
+          placeholderTextColor="#000"
           style={styles.input}
           value={password}
           onChangeText={setPassword}
