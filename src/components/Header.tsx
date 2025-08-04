@@ -20,45 +20,17 @@ interface HeaderProps {
 }
 
 export function Header({ name, label, onPress }: HeaderProps) {
-  const [modalVisible, setModalVisible] = useState(false);
-  const { setAuth } = useAuth();
   const { profile } = useSupabaseUser();
 
-  async function handleSignout() {
-    Alert.alert("Sair", "Deseja mesmo sair da sua conta?", [
-      {
-        text: "Não",
-        style: "cancel",
-      },
-      {
-        text: "Sim",
-        onPress: async () => {
-          setModalVisible(false);
-          const { error } = await supabase.auth.signOut();
-          setAuth(null);
-
-          if (error) {
-            Alert.alert(
-              "Error",
-              "Erro ao sair da conta, tente novamente mais tarde"
-            );
-            return;
-          }
-        },
-      },
-    ]);
-  }
   return (
     <View style={styles.container}>
       <View style={styles.header}>
-        <TouchableOpacity onPress={() => setModalVisible(true)}>
-          <Image
-            style={styles.img}
-            source={{
-              uri: "https://scontent-gru2-1.cdninstagram.com/v/t51.2885-19/466698498_2394222744247375_116135971975854835_n.jpg?stp=dst-jpg_s150x150_tt6&efg=eyJ2ZW5jb2RlX3RhZyI6InByb2ZpbGVfcGljLmRqYW5nby4xMDgwLmMyIn0&_nc_ht=scontent-gru2-1.cdninstagram.com&_nc_cat=107&_nc_oc=Q6cZ2QH4VeIoRgPkAj8-IXmLmWXmLH2Sp7gHNz7iHGXnFkF3lqxV9e_0TcnASIx9vK8tq8s&_nc_ohc=a_R2fIv3diEQ7kNvwFPjood&_nc_gid=Trw9FrbhC3IvYm6RxrLmag&edm=AOQ1c0wBAAAA&ccb=7-5&oh=00_AfSur31dxoboiXQYYfnGSiLR5k5SS5bzX6UtIhGhPsK9MQ&oe=6891CA09&_nc_sid=8b3546",
-            }}
-          />
-        </TouchableOpacity>
+        <Image
+          style={styles.img}
+          source={{
+            uri: "https://scontent-gru2-1.cdninstagram.com/v/t51.2885-19/466698498_2394222744247375_116135971975854835_n.jpg?stp=dst-jpg_s150x150_tt6&efg=eyJ2ZW5jb2RlX3RhZyI6InByb2ZpbGVfcGljLmRqYW5nby4xMDgwLmMyIn0&_nc_ht=scontent-gru2-1.cdninstagram.com&_nc_cat=107&_nc_oc=Q6cZ2QH4VeIoRgPkAj8-IXmLmWXmLH2Sp7gHNz7iHGXnFkF3lqxV9e_0TcnASIx9vK8tq8s&_nc_ohc=a_R2fIv3diEQ7kNvwFPjood&_nc_gid=Trw9FrbhC3IvYm6RxrLmag&edm=AOQ1c0wBAAAA&ccb=7-5&oh=00_AfSur31dxoboiXQYYfnGSiLR5k5SS5bzX6UtIhGhPsK9MQ&oe=6891CA09&_nc_sid=8b3546",
+          }}
+        />
         <View style={styles.user}>
           <Text style={styles.hi}>Igreja Metodista Wesleyana</Text>
           <Text style={styles.username}>Cachoeira</Text>
@@ -75,47 +47,6 @@ export function Header({ name, label, onPress }: HeaderProps) {
           </TouchableOpacity>
         )}
       </View>
-      <Modal
-        visible={modalVisible}
-        transparent
-        animationType="slide"
-        onRequestClose={() => setModalVisible(false)}
-      >
-        <View style={styles.modalContainer}>
-          <View style={styles.modalContent}>
-            <View
-              style={{
-                flexDirection: "row",
-                alignItems: "center",
-                paddingVertical: 8,
-                gap: 10,
-              }}
-            >
-              <Image
-                style={styles.avatarImage}
-                source={
-                  profile?.avatar_url
-                    ? { uri: profile.avatar_url }
-                    : require("@/assets/default-avatar.png")
-                }
-              />
-              <Text style={styles.modalUsername}>{profile?.name}</Text>
-            </View>
-            <TouchableOpacity
-              style={styles.modalOption}
-              onPress={handleSignout}
-            >
-              <Text style={styles.modalOptionText}>Deslogar</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={styles.closeButton}
-              onPress={() => setModalVisible(false)}
-            >
-              <Text style={styles.closeButtonText}>Fechar</Text>
-            </TouchableOpacity>
-          </View>
-        </View>
-      </Modal>
     </View>
   );
 }

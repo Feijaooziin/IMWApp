@@ -5,6 +5,7 @@ import { useAuth } from "@/context/AuthContext";
 import { useEffect } from "react";
 import { supabase } from "@/lib/supabase";
 import { router } from "expo-router";
+import { DrawerSceneWrapper } from "@/components/drawer-Scene-wrapper";
 
 export default function MainLayout() {
   const { setAuth } = useAuth();
@@ -13,11 +14,11 @@ export default function MainLayout() {
     supabase.auth.onAuthStateChange((_event, session) => {
       if (session) {
         setAuth(session.user);
-        router.replace("/(panel)/homepage/page");
+        router.replace("/home");
         return;
       }
       setAuth(null);
-      router.replace("/(auth)/signin/page");
+      router.replace("/(auth)/signin");
     });
   }, []);
   return (
@@ -45,7 +46,7 @@ export default function MainLayout() {
         }}
       >
         <Drawer.Screen
-          name="homepage/page"
+          name="home"
           options={{
             drawerLabel: "Inicio",
             drawerIcon: ({ color }) => (
@@ -55,7 +56,7 @@ export default function MainLayout() {
         />
 
         <Drawer.Screen
-          name="bible/page"
+          name="bible"
           options={{
             drawerLabel: "Bíblia",
             drawerIcon: ({ color }) => (
@@ -65,7 +66,7 @@ export default function MainLayout() {
         />
 
         <Drawer.Screen
-          name="about/page"
+          name="about"
           options={{
             drawerLabel: "Sobre",
             drawerIcon: ({ color }) => (
@@ -74,6 +75,16 @@ export default function MainLayout() {
                 size={20}
                 color={color}
               />
+            ),
+          }}
+        />
+
+        <Drawer.Screen
+          name="profile"
+          options={{
+            drawerLabel: "Perfil",
+            drawerIcon: ({ color }) => (
+              <Ionicons name="person" size={20} color={color} />
             ),
           }}
         />

@@ -7,6 +7,21 @@ interface UserProfile {
   name: string | null;
   email: string | null;
   avatar_url: string | null;
+  birth_date?: string | null;
+  gender?: string | null;
+  phone_mobile?: string | null;
+  phone_landline?: string | null;
+  street?: string | null;
+  number?: string | null;
+  neighborhood?: string | null;
+  city?: string | null;
+  conversion_date?: string | null;
+  baptism_date?: string | null;
+  ministry?: string | null;
+  member_status?: string | null;
+  entry_date?: string | null;
+  group_name?: string | null;
+  role?: string | null;
 }
 
 export function useSupabaseUser() {
@@ -17,6 +32,12 @@ export function useSupabaseUser() {
   useEffect(() => {
     let isMounted = true;
     let subscription: RealtimeChannel | null = null;
+
+    const userColumns = `
+      id, name, email, avatar_url, birth_date, gender, phone_mobile,
+      phone_landline, street, number, neighborhood, city, conversion_date,
+      baptism_date, ministry, member_status, entry_date, group_name, role
+    `;
 
     async function fetchUserProfile() {
       try {
@@ -34,7 +55,7 @@ export function useSupabaseUser() {
         // 2️⃣ Busca dados da tabela users
         const { data, error } = await supabase
           .from("users")
-          .select("id, name, email, avatar_url")
+          .select(userColumns)
           .eq("id", user.id)
           .single();
 
@@ -53,9 +74,18 @@ export function useSupabaseUser() {
               table: "users",
               filter: `id=eq.${user.id}`,
             },
-            (payload) => {
+            async () => {
               if (isMounted) {
-                setProfile(payload.new as UserProfile);
+                // Refetch para garantir que os dados estejam atualizados
+                const { data: freshData, error: freshError } = await supabase
+                  .from("users")
+                  .select(userColumns)
+                  .eq("id", user.id)
+                  .single();
+
+                if (!freshError && freshData) {
+                  setProfile(freshData);
+                }
               }
             }
           )
