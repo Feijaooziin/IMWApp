@@ -59,9 +59,19 @@ export default function MainLayout() {
         <Drawer.Screen
           name="home"
           options={{
-            drawerLabel: "Inicio",
+            drawerLabel: "Início",
             drawerIcon: ({ color }) => (
               <Ionicons name="home" size={20} color={color} />
+            ),
+          }}
+        />
+
+        <Drawer.Screen
+          name="(videos)"
+          options={{
+            drawerLabel: "Vídeos",
+            drawerIcon: ({ color }) => (
+              <Ionicons name="videocam" size={20} color={color} />
             ),
           }}
         />
