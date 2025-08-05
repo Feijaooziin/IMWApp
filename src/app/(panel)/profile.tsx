@@ -9,6 +9,8 @@ import {
   Image,
   Alert,
   Platform,
+  Keyboard,
+  KeyboardAvoidingView,
 } from "react-native";
 import { DrawerSceneWrapper } from "@/components/drawer-Scene-wrapper";
 import { Header } from "@/components/Header";
@@ -17,6 +19,7 @@ import { useSupabaseUser } from "@/context/UserContext";
 import { useAuth } from "@/context/AuthContext";
 import { Picker } from "@react-native-picker/picker";
 import DateTimePicker from "@react-native-community/datetimepicker";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 // ✅ Definição de tipo para o formulário
 type FormFields = {
@@ -28,7 +31,9 @@ type FormFields = {
   phone_mobile: string;
   phone_landline: string;
   street: string;
+  number: string;
   neighborhood: string;
+  city: string;
   conversion_date: string;
   baptism_date: string;
   ministry: string;
@@ -53,7 +58,9 @@ export default function Profile() {
     phone_mobile: "",
     phone_landline: "",
     street: "",
+    number: "",
     neighborhood: "",
+    city: "",
     conversion_date: "",
     baptism_date: "",
     ministry: "",
@@ -73,7 +80,9 @@ export default function Profile() {
         phone_mobile: profile.phone_mobile || "",
         phone_landline: profile.phone_landline || "",
         street: profile.street || "",
+        number: profile.number || "",
         neighborhood: profile.neighborhood || "",
+        city: profile.city || "",
         conversion_date: profile.conversion_date || "",
         baptism_date: profile.baptism_date || "",
         ministry: profile.ministry || "",
@@ -128,7 +137,9 @@ export default function Profile() {
           phone_mobile: profile.phone_mobile || "",
           phone_landline: profile.phone_landline || "",
           street: profile.street || "",
+          number: profile.number || "",
           neighborhood: profile.neighborhood || "",
+          city: profile.city || "",
           conversion_date: profile.conversion_date || "",
           baptism_date: profile.baptism_date || "",
           ministry: profile.ministry || "",
@@ -189,11 +200,13 @@ export default function Profile() {
     <View style={{ flex: 1 }}>
       <Text style={styles.label}>{label}</Text>
       <TouchableOpacity
-        style={[styles.input, !editMode && styles.inputDisabled]}
+        style={[styles.dateInput, !editMode && styles.inputDisabled]}
         disabled={!editMode}
         onPress={() => setDateField(field)}
       >
-        <Text>{formData[field] || "Selecionar Data"}</Text>
+        <Text style={!editMode ? styles.dateTextDisabled : styles.dateText}>
+          {formData[field] || "Selecionar Data"}
+        </Text>
       </TouchableOpacity>
     </View>
   );
@@ -201,125 +214,171 @@ export default function Profile() {
   return (
     <DrawerSceneWrapper>
       <Header name="Área do Membro" />
-      <ScrollView contentContainerStyle={styles.container}>
-        {/* Foto de Perfil */}
-        <View style={styles.imageContainer}>
-          <Image
-            style={styles.profileImage}
-            source={
-              formData.avatar_url
-                ? { uri: formData.avatar_url }
-                : require("@/assets/default-avatar.png")
-            }
-          />
-        </View>
+      <KeyboardAvoidingView
+        style={{ flex: 1 }}
+        behavior={Platform.OS === "ios" ? "padding" : "height"}
+        keyboardVerticalOffset={Platform.OS === "ios" ? 100 : 0}
+      >
+        <ScrollView
+          contentContainerStyle={[
+            styles.container,
+            { flexGrow: 1, minHeight: "100%" },
+          ]}
+          keyboardShouldPersistTaps="never"
+        >
+          {/* Foto de Perfil */}
+          <View style={styles.imageContainer}>
+            <Image
+              style={styles.profileImage}
+              source={
+                formData.avatar_url
+                  ? { uri: formData.avatar_url }
+                  : require("@/assets/default-avatar.png")
+              }
+            />
+          </View>
 
-        {/* Dados Pessoais */}
-        <Text style={styles.sectionTitle}>Dados Pessoais</Text>
-        {renderInput("Nome Completo", formData.name, (t) =>
-          setFormData({ ...formData, name: t })
-        )}
-        {renderInput("URL da Imagem", formData.avatar_url, (t) =>
-          setFormData({ ...formData, avatar_url: t })
-        )}
-        <View style={styles.row}>
-          {renderDateInput("Data de Nascimento", "birth_date")}
-          <View style={{ flex: 1, marginLeft: 8 }}>
-            <Text style={styles.label}>Gênero</Text>
-            <View
-              style={[
-                styles.pickerContainer,
-                !editMode && styles.inputDisabled,
-              ]}
-            >
-              <Picker
-                enabled={editMode}
-                selectedValue={formData.gender}
-                onValueChange={(val) =>
-                  setFormData({ ...formData, gender: val })
-                }
+          {/* Dados Pessoais */}
+          <Text style={styles.sectionTitle}>Dados Pessoais</Text>
+          {renderInput("Nome Completo", formData.name, (t) =>
+            setFormData({ ...formData, name: t })
+          )}
+          {renderInput("URL da Imagem", formData.avatar_url, (t) =>
+            setFormData({ ...formData, avatar_url: t })
+          )}
+          <View style={styles.row}>
+            {renderDateInput("Data de Nascimento", "birth_date")}
+            <View style={{ flex: 1, marginLeft: 8 }}>
+              <Text style={styles.label}>Gênero</Text>
+              <View
+                style={[
+                  styles.pickerContainer,
+                  !editMode && styles.inputDisabled,
+                ]}
               >
-                <Picker.Item label="Selecione" value="" />
-                <Picker.Item label="Masculino" value="Masculino" />
-                <Picker.Item label="Feminino" value="Feminino" />
-                <Picker.Item label="Outro" value="Outro" />
-              </Picker>
+                <Picker
+                  enabled={editMode}
+                  selectedValue={formData.gender}
+                  onValueChange={(val) =>
+                    setFormData({ ...formData, gender: val })
+                  }
+                >
+                  <Picker.Item label="Selecione" value="" />
+                  <Picker.Item label="Masculino" value="Masculino" />
+                  <Picker.Item label="Feminino" value="Feminino" />
+                  <Picker.Item label="Outro" value="Outro" />
+                </Picker>
+              </View>
             </View>
           </View>
-        </View>
 
-        {/* Contato */}
-        <Text style={styles.sectionTitle}>Informações de Contato</Text>
-        {renderInput("Telefone Celular", formData.phone_mobile, (t) =>
-          setFormData({ ...formData, phone_mobile: t })
-        )}
-        {renderInput("Telefone Fixo", formData.phone_landline, (t) =>
-          setFormData({ ...formData, phone_landline: t })
-        )}
-        {renderInput("E-mail", formData.email, (t) =>
-          setFormData({ ...formData, email: t })
-        )}
-        <View style={styles.row}>
-          {renderInput("Endereço", formData.street, (t) =>
-            setFormData({ ...formData, street: t })
+          {/* Contato */}
+          <Text style={styles.sectionTitle}>Informações de Contato</Text>
+          {renderInput("Telefone Celular", formData.phone_mobile, (t) =>
+            setFormData({ ...formData, phone_mobile: t })
           )}
-          <View style={{ marginLeft: 8, flex: 1 }}>
+          {renderInput("Telefone Fixo", formData.phone_landline, (t) =>
+            setFormData({ ...formData, phone_landline: t })
+          )}
+          {renderInput("E-mail", formData.email, (t) =>
+            setFormData({ ...formData, email: t })
+          )}
+          <View style={styles.row}>
+            <View style={{ flex: 3 }}>
+              {renderInput("Rua", formData.street, (t) =>
+                setFormData({ ...formData, street: t })
+              )}
+            </View>
+            <View style={{ flex: 1, marginLeft: 8 }}>
+              {renderInput("Número", formData.number, (t) =>
+                setFormData({ ...formData, number: t })
+              )}
+            </View>
+          </View>
+          <View style={styles.row}>
             {renderInput("Bairro", formData.neighborhood, (t) =>
               setFormData({ ...formData, neighborhood: t })
             )}
+            <View style={{ marginLeft: 8, flex: 1 }}>
+              {renderInput("Cidade", formData.city, (t) =>
+                setFormData({ ...formData, city: t })
+              )}
+            </View>
           </View>
-        </View>
 
-        {/* Eclesiásticos */}
-        <Text style={styles.sectionTitle}>Dados Eclesiásticos</Text>
-        {renderDateInput("Data de Conversão", "conversion_date")}
-        {renderDateInput("Data de Batismo", "baptism_date")}
-        {renderInput("Ministério / Função", formData.ministry, (t) =>
-          setFormData({ ...formData, ministry: t })
-        )}
-        <Text style={styles.label}>Situação do Membro</Text>
-        <View
-          style={[styles.pickerContainer, !editMode && styles.inputDisabled]}
-        >
-          <Picker
-            enabled={editMode}
-            selectedValue={formData.member_status}
-            onValueChange={(val) =>
-              setFormData({ ...formData, member_status: val })
-            }
+          {/* Eclesiásticos */}
+          <Text style={styles.sectionTitle}>Dados Eclesiásticos</Text>
+          <Text style={styles.label}>Situação do Membro</Text>
+          <View
+            style={[styles.pickerContainer, !editMode && styles.inputDisabled]}
           >
-            <Picker.Item label="Selecione" value="" />
-            <Picker.Item label="Ativo" value="Ativo" />
-            <Picker.Item label="Visitante" value="Visitante" />
-            <Picker.Item label="Inativo" value="Inativo" />
-          </Picker>
-        </View>
-        {renderInput("Participa de Grupo ou Célula", formData.group_name, (t) =>
-          setFormData({ ...formData, group_name: t })
-        )}
-
-        {editMode ? (
-          <View style={styles.btnRow}>
-            <TouchableOpacity style={styles.btnSave} onPress={saveChanges}>
-              <Text style={styles.btnText}>Salvar</Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.btnCancel} onPress={handleCancel}>
-              <Text style={styles.btnText}>Cancelar</Text>
-            </TouchableOpacity>
+            <Picker
+              enabled={editMode}
+              selectedValue={formData.member_status}
+              onValueChange={(val) =>
+                setFormData({ ...formData, member_status: val })
+              }
+            >
+              <Picker.Item label="Selecione" value="" />
+              <Picker.Item label="Ativo" value="Ativo" />
+              <Picker.Item label="Inativo" value="Inativo" />
+              <Picker.Item label="Ausente" value="Ausente" />
+              <Picker.Item label="Falecido" value="Falecido" />
+            </Picker>
           </View>
-        ) : (
-          <TouchableOpacity
-            style={styles.btnEdit}
-            onPress={() => setEditMode(true)}
+
+          <View style={styles.row2}>
+            {renderDateInput("Data de Conversão", "conversion_date")}
+            {renderDateInput("Data de Batismo", "baptism_date")}
+          </View>
+
+          {renderInput("Ministério / Função", formData.ministry, (t) =>
+            setFormData({ ...formData, ministry: t })
+          )}
+
+          <Text style={styles.label}>Participa de qual GCEU</Text>
+          <View
+            style={[styles.pickerContainer, !editMode && styles.inputDisabled]}
           >
-            <Text style={styles.btnText}>Editar Cadastro</Text>
+            <Picker
+              enabled={editMode}
+              selectedValue={formData.group_name}
+              onValueChange={(val) =>
+                setFormData({ ...formData, group_name: val })
+              }
+            >
+              <Picker.Item label="Selecione" value="" />
+              <Picker.Item label="Aliança" value="Aliança" />
+              <Picker.Item label="GCEU1" value="GCEU1" />
+              <Picker.Item label="GCEU2" value="GCEU2" />
+              <Picker.Item label="GCEU3" value="GCEU3" />
+              <Picker.Item label="GCEU4" value="GCEU4" />
+            </Picker>
+          </View>
+
+          {editMode ? (
+            <View style={styles.btnRow}>
+              <TouchableOpacity style={styles.btnSave} onPress={saveChanges}>
+                <Text style={styles.btnText}>Salvar</Text>
+              </TouchableOpacity>
+              <TouchableOpacity style={styles.btnCancel} onPress={handleCancel}>
+                <Text style={styles.btnText}>Cancelar</Text>
+              </TouchableOpacity>
+            </View>
+          ) : (
+            <TouchableOpacity
+              style={styles.btnEdit}
+              onPress={() => setEditMode(true)}
+            >
+              <Text style={styles.btnText}>Editar Cadastro</Text>
+            </TouchableOpacity>
+          )}
+
+          <TouchableOpacity style={styles.btnLogout} onPress={handleLogout}>
+            <Text style={styles.btnText}>Sair</Text>
           </TouchableOpacity>
-        )}
-
-        <TouchableOpacity style={styles.btnLogout} onPress={handleLogout}>
-          <Text style={styles.btnText}>Sair</Text>
-        </TouchableOpacity>
-      </ScrollView>
+        </ScrollView>
+      </KeyboardAvoidingView>
 
       {dateField && (
         <DateTimePicker
@@ -337,9 +396,10 @@ export default function Profile() {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    flexGrow: 1,
     padding: 20,
     backgroundColor: "#efefef",
+    minHeight: "100%",
   },
   imageContainer: {
     alignItems: "center",
@@ -371,7 +431,8 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     marginBottom: 12,
     fontSize: 14,
-    color: "#333",
+    color: "#000",
+    height: 50,
   },
   inputDisabled: {
     backgroundColor: "#ccc",
@@ -383,11 +444,41 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
     borderRadius: 8,
     marginBottom: 12,
+    paddingHorizontal: 4,
+    height: 50,
+    justifyContent: "center",
+  },
+  dateInput: {
+    borderWidth: 1,
+    borderColor: "#999",
+    backgroundColor: "#fff",
+    paddingVertical: 12,
+    paddingHorizontal: 10,
+    borderRadius: 8,
+    marginBottom: 12,
+    justifyContent: "center",
+    height: 50,
+  },
+  dateText: {
+    fontSize: 14,
+    color: "#333",
+  },
+  dateTextDisabled: {
+    fontSize: 14,
+    color: "#777",
   },
   row: {
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
+    width: "100%",
+  },
+  row2: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    width: "100%",
+    gap: 8,
   },
   btnRow: {
     flexDirection: "row",

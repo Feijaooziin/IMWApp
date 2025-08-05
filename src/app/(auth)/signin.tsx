@@ -33,11 +33,11 @@ export default function Login() {
     setEmail("");
     setPassword("");
     setLoading(false);
-    router.replace("/(panel)/homepage/page");
+    router.replace("/(panel)/home");
   }
 
   function handleSignUp() {
-    router.navigate("/signup/page");
+    router.navigate("/signup");
   }
 
   return (
