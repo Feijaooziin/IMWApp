@@ -1,7 +1,8 @@
-import { AuthProvider, useAuth } from "@/context/AuthContext";
 import { useEffect } from "react";
-import { supabase } from "@/lib/supabase";
 import { router, Stack } from "expo-router";
+
+import { AuthProvider, useAuth } from "@/context/AuthContext";
+import { supabase } from "@/lib/supabase";
 
 export default function RootLayout() {
   return (
@@ -18,7 +19,7 @@ function MainLayout() {
     supabase.auth.onAuthStateChange((_event, session) => {
       if (session) {
         setAuth(session.user);
-        router.replace("/(panel)/home");
+        router.replace("/(screens)/home");
         return;
       }
       setAuth(null);

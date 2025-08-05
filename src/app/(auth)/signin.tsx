@@ -6,8 +6,8 @@ import {
   Image,
   TouchableOpacity,
   TextInput,
-  Alert,
 } from "react-native";
+
 import { router } from "expo-router";
 import { supabase } from "@/lib/supabase";
 import { useSupabaseErrorHandler } from "@/hooks/useSupabaseErrorHandler";
@@ -37,7 +37,7 @@ export default function Login() {
     setEmail("");
     setPassword("");
     setLoading(false);
-    router.replace("/(panel)/home");
+    router.replace("/(screens)/home");
   }
 
   function handleSignUp() {

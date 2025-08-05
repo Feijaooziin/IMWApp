@@ -10,8 +10,8 @@ import {
   TextInput,
   SafeAreaView,
   ScrollView,
-  Alert,
 } from "react-native";
+
 import { supabase } from "@/lib/supabase";
 import { useSupabaseErrorHandler } from "@/hooks/useSupabaseErrorHandler";
 

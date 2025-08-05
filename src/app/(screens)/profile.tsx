@@ -12,14 +12,14 @@ import {
   Keyboard,
   KeyboardAvoidingView,
 } from "react-native";
+import { Picker } from "@react-native-picker/picker";
+import DateTimePicker from "@react-native-community/datetimepicker";
+
 import { DrawerSceneWrapper } from "@/components/drawer-Scene-wrapper";
 import { Header } from "@/components/Header";
 import { supabase } from "@/lib/supabase";
 import { useSupabaseUser } from "@/context/UserContext";
 import { useAuth } from "@/context/AuthContext";
-import { Picker } from "@react-native-picker/picker";
-import DateTimePicker from "@react-native-community/datetimepicker";
-import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 // ✅ Definição de tipo para o formulário
 type FormFields = {

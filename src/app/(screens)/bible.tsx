@@ -8,10 +8,11 @@ import {
   TouchableOpacity,
   Modal,
 } from "react-native";
+import { Ionicons } from "@expo/vector-icons";
 import { Picker } from "@react-native-picker/picker";
+
 import { DrawerSceneWrapper } from "@/components/drawer-Scene-wrapper";
 import { Header } from "@/components/Header";
-import { Feather, Ionicons } from "@expo/vector-icons";
 
 type LivroJSON = {
   name: string;

@@ -1,10 +1,11 @@
 import { useEffect, useRef, useState } from "react";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
+import { router } from "expo-router";
 import { Drawer } from "expo-router/drawer";
+
 import { Ionicons } from "@expo/vector-icons";
 import { useAuth } from "@/context/AuthContext";
 import { supabase } from "@/lib/supabase";
-import { router } from "expo-router";
 
 export default function MainLayout() {
   const drawerRef = useRef<any>(null);
