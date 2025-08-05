@@ -34,10 +34,9 @@ type FormFields = {
   number: string;
   neighborhood: string;
   city: string;
-  conversion_date: string;
+  member_status: string;
   baptism_date: string;
   ministry: string;
-  member_status: string;
   entry_date: string;
   group_name: string;
 };
@@ -61,10 +60,9 @@ export default function Profile() {
     number: "",
     neighborhood: "",
     city: "",
-    conversion_date: "",
+    member_status: "",
     baptism_date: "",
     ministry: "",
-    member_status: "",
     entry_date: "",
     group_name: "",
   });
@@ -83,10 +81,9 @@ export default function Profile() {
         number: profile.number || "",
         neighborhood: profile.neighborhood || "",
         city: profile.city || "",
-        conversion_date: profile.conversion_date || "",
+        member_status: profile.member_status || "",
         baptism_date: profile.baptism_date || "",
         ministry: profile.ministry || "",
-        member_status: profile.member_status || "",
         entry_date: profile.entry_date || "",
         group_name: profile.group_name || "",
       });
@@ -100,9 +97,6 @@ export default function Profile() {
     const dataToUpdate = {
       ...formData,
       birth_date: formData.birth_date ? new Date(formData.birth_date) : null,
-      conversion_date: formData.conversion_date
-        ? new Date(formData.conversion_date)
-        : null,
       baptism_date: formData.baptism_date
         ? new Date(formData.baptism_date)
         : null,
@@ -140,10 +134,9 @@ export default function Profile() {
           number: profile.number || "",
           neighborhood: profile.neighborhood || "",
           city: profile.city || "",
-          conversion_date: profile.conversion_date || "",
+          member_status: profile.member_status || "",
           baptism_date: profile.baptism_date || "",
           ministry: profile.ministry || "",
-          member_status: profile.member_status || "",
           entry_date: profile.entry_date || "",
           group_name: profile.group_name || "",
         });
@@ -328,8 +321,8 @@ export default function Profile() {
           </View>
 
           <View style={styles.row2}>
-            {renderDateInput("Data de Conversão", "conversion_date")}
             {renderDateInput("Data de Batismo", "baptism_date")}
+            {renderDateInput("Membro desde", "entry_date")}
           </View>
 
           {renderInput("Ministério / Função", formData.ministry, (t) =>
