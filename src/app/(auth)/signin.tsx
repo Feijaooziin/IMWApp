@@ -10,11 +10,14 @@ import {
 } from "react-native";
 import { router } from "expo-router";
 import { supabase } from "@/lib/supabase";
+import { useSupabaseErrorHandler } from "@/hooks/useSupabaseErrorHandler";
 
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
+
+  const { handleSupabaseError } = useSupabaseErrorHandler();
 
   async function handleLogin() {
     setLoading(true);
@@ -25,7 +28,8 @@ export default function Login() {
     });
 
     if (error) {
-      Alert.alert("Erro", error.message);
+      handleSupabaseError(error);
+      console.log(`Mensagem de erro: ${error.message}`);
       setLoading(false);
       return;
     }
