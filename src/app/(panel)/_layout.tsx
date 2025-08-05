@@ -1,13 +1,14 @@
+import { useEffect, useRef, useState } from "react";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { Drawer } from "expo-router/drawer";
 import { Ionicons } from "@expo/vector-icons";
 import { useAuth } from "@/context/AuthContext";
-import { useEffect } from "react";
 import { supabase } from "@/lib/supabase";
 import { router } from "expo-router";
-import { DrawerSceneWrapper } from "@/components/drawer-Scene-wrapper";
 
 export default function MainLayout() {
+  const drawerRef = useRef<any>(null);
+  const [drawerOpen, setDrawerOpen] = useState(false);
   const { setAuth } = useAuth();
 
   useEffect(() => {
@@ -21,6 +22,16 @@ export default function MainLayout() {
       router.replace("/(auth)/signin");
     });
   }, []);
+
+  function openDrawer() {
+    drawerRef.current?.openDrawer();
+    setDrawerOpen(true);
+  }
+  function closeDrawer() {
+    drawerRef.current?.closeDrawer();
+    setDrawerOpen(false);
+  }
+
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
       <Drawer
@@ -39,9 +50,8 @@ export default function MainLayout() {
           drawerLabelStyle: {
             marginLeft: 8,
           },
-
           sceneStyle: {
-            backgroundColor: "#292929",
+            backgroundColor: drawerOpen ? "#292929" : "#efefef",
           },
         }}
       >

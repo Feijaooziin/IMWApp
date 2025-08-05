@@ -1,17 +1,6 @@
-import { useAuth } from "@/context/AuthContext";
-import { supabase } from "@/lib/supabase";
 import { useSupabaseUser } from "@/context/UserContext";
 import { DrawerToggleButton } from "@react-navigation/drawer";
-import { useState } from "react";
-import {
-  View,
-  Text,
-  StyleSheet,
-  Image,
-  TouchableOpacity,
-  Modal,
-  Alert,
-} from "react-native";
+import { View, Text, StyleSheet, Image, TouchableOpacity } from "react-native";
 
 interface HeaderProps {
   name: string;
@@ -55,9 +44,7 @@ const styles = StyleSheet.create({
   container: {
     padding: 14,
     paddingTop: 40,
-    backgroundColor: "#efefef",
   },
-
   header: {
     flexDirection: "row",
     alignItems: "center",
@@ -65,7 +52,6 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     borderBottomColor: "#888",
   },
-
   img: {
     width: 50,
     height: 50,
@@ -73,28 +59,25 @@ const styles = StyleSheet.create({
     marginTop: 5,
     marginBottom: 5,
   },
-
   user: {
     flex: 1,
     justifyContent: "center",
   },
-
   hi: {
     fontSize: 14,
     fontWeight: "300",
+    color: "#000",
   },
-
   username: {
     fontSize: 20,
     fontWeight: "700",
+    color: "#000",
   },
-
   titleContainer: {
     flexDirection: "row",
     alignItems: "center",
     marginTop: 18,
   },
-
   title: {
     flex: 1,
     textTransform: "uppercase",
@@ -103,7 +86,6 @@ const styles = StyleSheet.create({
     color: "#000",
     lineHeight: 28,
   },
-
   configButton: {
     backgroundColor: "#0683bd",
     paddingHorizontal: 18,
@@ -112,60 +94,9 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
   },
-
   configButtonText: {
     color: "#fff",
     fontWeight: "900",
     textTransform: "uppercase",
-  },
-
-  modalContainer: {
-    flex: 1,
-    backgroundColor: "rgba(0,0,0,0.7)",
-    justifyContent: "center",
-    alignItems: "center",
-  },
-
-  modalContent: {
-    backgroundColor: "#fff",
-    padding: 20,
-    width: "80%",
-    borderRadius: 8,
-  },
-
-  modalUsername: {
-    fontSize: 24,
-    fontWeight: "bold",
-  },
-
-  avatarImage: {
-    width: 50,
-    height: 50,
-    borderRadius: 100,
-    marginRight: 8,
-  },
-
-  modalOption: {
-    paddingVertical: 10,
-    borderBottomWidth: 1,
-    borderBottomColor: "#ccc",
-    // alignItems: "flex-end",
-  },
-
-  modalOptionText: {
-    fontSize: 16,
-  },
-
-  closeButton: {
-    marginTop: 15,
-    backgroundColor: "#0683bd",
-    padding: 10,
-    borderRadius: 5,
-    alignItems: "center",
-  },
-
-  closeButtonText: {
-    color: "#fff",
-    fontWeight: "bold",
   },
 });
