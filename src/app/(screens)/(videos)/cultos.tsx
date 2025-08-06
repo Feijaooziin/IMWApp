@@ -9,7 +9,7 @@ export default function Cultos() {
 
   return (
     <DrawerSceneWrapper>
-      <Header name="Vídeos - Cultos Gravados" />
+      <Header name="Cultos Gravados" />
       <View style={styles.container}>
         <VideoList data={videos} loading={loading} />
       </View>

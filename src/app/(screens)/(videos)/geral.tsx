@@ -9,7 +9,7 @@ export default function Geral() {
 
   return (
     <DrawerSceneWrapper>
-      <Header name="Vídeos - Geral" />
+      <Header name="Geral" />
       <View style={styles.container}>
         <VideoList data={videos} loading={loading} />
       </View>
