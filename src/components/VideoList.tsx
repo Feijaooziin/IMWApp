@@ -41,7 +41,18 @@ export function VideoList({ data, loading }: Props) {
                 style={styles.thumbnail}
               />
             )}
-            <Text style={styles.title}>{item.title}</Text>
+            <View style={styles.infoContainer}>
+              <Text style={styles.title} numberOfLines={1} ellipsizeMode="tail">
+                {item.title}
+              </Text>
+              <Text
+                style={styles.description}
+                numberOfLines={2}
+                ellipsizeMode="tail"
+              >
+                {item.description}
+              </Text>
+            </View>
           </TouchableOpacity>
         )}
       />
@@ -59,16 +70,31 @@ const styles = StyleSheet.create({
   card: {
     backgroundColor: "#FFF",
     borderRadius: 12,
-    overflow: "hidden",
     elevation: 2,
+    flexDirection: "row",
+    marginVertical: 6,
+    overflow: "hidden",
   },
   thumbnail: {
-    width: "100%",
-    height: 200,
+    width: "40%",
+    height: 80,
+    borderTopLeftRadius: 12,
+    borderBottomLeftRadius: 12,
+  },
+  infoContainer: {
+    width: "60%",
+    padding: 10,
+    justifyContent: "center",
+    borderLeftWidth: 2,
   },
   title: {
-    fontSize: 20,
+    fontSize: 16,
     fontWeight: "bold",
-    padding: 10,
+    marginBottom: 4,
+    color: "#222",
+  },
+  description: {
+    fontSize: 14,
+    color: "#555",
   },
 });

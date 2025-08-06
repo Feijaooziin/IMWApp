@@ -339,6 +339,7 @@ export default function Profile() {
               onValueChange={(val) =>
                 setFormData({ ...formData, group_name: val })
               }
+              dropdownIconColor={!editMode ? "#777" : "#000"}
             >
               <Picker.Item label="Selecione" value="" />
               <Picker.Item label="Aliança" value="Aliança" />
@@ -440,6 +441,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 4,
     height: 50,
     justifyContent: "center",
+    color: "#000",
   },
   dateInput: {
     borderWidth: 1,
