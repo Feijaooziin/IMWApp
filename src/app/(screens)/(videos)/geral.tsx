@@ -1,13 +1,17 @@
 import { View, Text, StyleSheet } from "react-native";
+import { useVideos } from "@/hooks/useVideos";
 import { DrawerSceneWrapper } from "@/components/drawer-Scene-wrapper";
 import { Header } from "@/components/Header";
+import { VideoList } from "@/components/VideoList";
 
 export default function Geral() {
+  const { videos, loading } = useVideos("geral");
+
   return (
     <DrawerSceneWrapper>
       <Header name="Vídeos - Geral" />
       <View style={styles.container}>
-        <Text style={styles.text}>Lista de vídeos gerais aqui...</Text>
+        <VideoList data={videos} loading={loading} />
       </View>
     </DrawerSceneWrapper>
   );

@@ -1,13 +1,17 @@
 import { View, Text, StyleSheet } from "react-native";
+import { useVideos } from "@/hooks/useVideos";
 import { DrawerSceneWrapper } from "@/components/drawer-Scene-wrapper";
 import { Header } from "@/components/Header";
+import { VideoList } from "@/components/VideoList";
 
 export default function Cultos() {
+  const { videos, loading } = useVideos("cultos");
+
   return (
     <DrawerSceneWrapper>
       <Header name="Vídeos - Cultos Gravados" />
       <View style={styles.container}>
-        <Text style={styles.text}>Lista de cultos gravados aqui...</Text>
+        <VideoList data={videos} loading={loading} />
       </View>
     </DrawerSceneWrapper>
   );
