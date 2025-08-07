@@ -109,6 +109,16 @@ export default function MainLayout() {
             ),
           }}
         />
+
+        <Drawer.Screen
+          name="add-video"
+          options={{
+            drawerLabel: "Add Vídeos",
+            drawerIcon: ({ color }) => (
+              <Ionicons name="cloud-upload" size={20} color={color} />
+            ),
+          }}
+        />
       </Drawer>
     </GestureHandlerRootView>
   );
