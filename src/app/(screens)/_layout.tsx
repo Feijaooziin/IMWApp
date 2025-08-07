@@ -1,7 +1,13 @@
 import { useEffect, useRef, useState } from "react";
+import { View, TouchableOpacity, Alert } from "react-native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { router } from "expo-router";
 import { Drawer } from "expo-router/drawer";
+import {
+  DrawerContentScrollView,
+  DrawerItemList,
+  DrawerItem,
+} from "@react-navigation/drawer";
 import { Ionicons } from "@expo/vector-icons";
 
 import { useAuth } from "@/context/AuthContext";
@@ -26,13 +32,21 @@ export default function MainLayout() {
     });
   }, []);
 
-  function openDrawer() {
-    drawerRef.current?.openDrawer();
-    setDrawerOpen(true);
-  }
-  function closeDrawer() {
-    drawerRef.current?.closeDrawer();
-    setDrawerOpen(false);
+  async function handleLogout() {
+    Alert.alert("Sair", "Deseja mesmo sair da sua conta?", [
+      { text: "Não", style: "cancel" },
+      {
+        text: "Sim",
+        onPress: async () => {
+          const { error } = await supabase.auth.signOut();
+          setAuth(null);
+          if (error) {
+            Alert.alert("Erro", "Erro ao sair da conta, tente novamente.");
+          }
+        },
+      },
+    ]);
+    setAuth(null);
   }
 
   return (
@@ -57,6 +71,34 @@ export default function MainLayout() {
             backgroundColor: drawerOpen ? "#292929" : "#efefef",
           },
         }}
+        drawerContent={(props) => (
+          <DrawerContentScrollView
+            {...props}
+            contentContainerStyle={{ flex: 1 }}
+          >
+            <DrawerItemList {...props} />
+
+            <View style={{ flex: 1 }} />
+
+            <TouchableOpacity
+              style={{
+                backgroundColor: "white",
+                borderRadius: 12,
+              }}
+            >
+              <DrawerItem
+                label="Sair da Conta"
+                labelStyle={{
+                  color: "#292929",
+                }}
+                icon={() => (
+                  <Ionicons name="log-out" size={24} color="#292929" />
+                )}
+                onPress={handleLogout}
+              />
+            </TouchableOpacity>
+          </DrawerContentScrollView>
+        )}
       >
         <Drawer.Screen
           name="home"
