@@ -15,7 +15,7 @@ export default function Layout() {
         tabBarInactiveTintColor: "#aaa",
         tabBarStyle: {
           backgroundColor: "#292929",
-          height: 90,
+          height: 75,
         },
         tabBarIcon: ({ color, size }) => {
           let iconName: keyof typeof Ionicons.glyphMap = "videocam";
