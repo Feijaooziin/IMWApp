@@ -12,7 +12,7 @@ export default function MainLayout() {
   const drawerRef = useRef<any>(null);
   const [drawerOpen, setDrawerOpen] = useState(false);
   const { setAuth } = useAuth();
-  const { role, loading: roleLoading } = useUserRole();
+  const { role } = useUserRole();
 
   useEffect(() => {
     supabase.auth.onAuthStateChange((_event, session) => {
