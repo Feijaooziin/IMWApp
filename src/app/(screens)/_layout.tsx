@@ -2,15 +2,17 @@ import { useEffect, useRef, useState } from "react";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { router } from "expo-router";
 import { Drawer } from "expo-router/drawer";
-
 import { Ionicons } from "@expo/vector-icons";
+
 import { useAuth } from "@/context/AuthContext";
 import { supabase } from "@/lib/supabase";
+import { useUserRole } from "@/hooks/useUserRole";
 
 export default function MainLayout() {
   const drawerRef = useRef<any>(null);
   const [drawerOpen, setDrawerOpen] = useState(false);
   const { setAuth } = useAuth();
+  const { role, loading: roleLoading } = useUserRole();
 
   useEffect(() => {
     supabase.auth.onAuthStateChange((_event, session) => {
@@ -117,6 +119,9 @@ export default function MainLayout() {
             drawerIcon: ({ color }) => (
               <Ionicons name="cloud-upload" size={20} color={color} />
             ),
+            drawerItemStyle: {
+              display: role === "admin" ? "flex" : "none",
+            },
           }}
         />
       </Drawer>
