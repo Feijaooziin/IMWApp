@@ -1,4 +1,4 @@
-import { useSupabaseUser } from "@/context/UserContext";
+import { useSupabaseUser } from "@/hooks/UserContext";
 import { DrawerToggleButton } from "@react-navigation/drawer";
 import { View, Text, StyleSheet, Image, TouchableOpacity } from "react-native";
 

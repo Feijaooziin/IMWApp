@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { router, Stack } from "expo-router";
 
-import { AuthProvider, useAuth } from "@/context/AuthContext";
+import { AuthProvider, useAuth } from "@/hooks/AuthContext";
 import { supabase } from "@/lib/supabase";
 
 export default function RootLayout() {

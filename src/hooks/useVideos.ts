@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { Alert } from "react-native";
 import { supabase } from "@/lib/supabase";
 
 interface Video {
@@ -34,9 +35,16 @@ export function useVideos(category?: string) {
       ascending: false,
     });
 
+    console.log("Supabase data:", data);
+    console.log("Supabase error:", error);
+
     if (error) {
       setError(error.message);
-    } else if (data) {
+      Alert.alert("Erro Supabase", error.message);
+    } else if (!data || data.length === 0) {
+      setVideos([]);
+      Alert.alert("Nenhum vídeo", "A lista de vídeos está vazia.");
+    } else {
       setVideos(data);
     }
 
