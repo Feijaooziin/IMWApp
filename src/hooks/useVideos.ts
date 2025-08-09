@@ -35,9 +35,6 @@ export function useVideos(category?: string) {
       ascending: false,
     });
 
-    console.log("Supabase data:", data);
-    console.log("Supabase error:", error);
-
     if (error) {
       setError(error.message);
       Alert.alert("Erro Supabase", error.message);

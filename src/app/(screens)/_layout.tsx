@@ -166,6 +166,19 @@ export default function MainLayout() {
             },
           }}
         />
+
+        <Drawer.Screen
+          name="manageVideos"
+          options={{
+            drawerLabel: "Editar Vídeos",
+            drawerIcon: ({ color }) => (
+              <Ionicons name="videocam" size={20} color={color} />
+            ),
+            drawerItemStyle: {
+              display: role === "admin" ? "flex" : "none",
+            },
+          }}
+        />
       </Drawer>
     </GestureHandlerRootView>
   );
