@@ -42,6 +42,7 @@ export function Header({ name, label, onPress }: HeaderProps) {
 
 const styles = StyleSheet.create({
   container: {
+    backgroundColor: "#efefef",
     padding: 14,
     paddingTop: 40,
   },

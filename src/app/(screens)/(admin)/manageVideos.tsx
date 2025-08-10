@@ -23,7 +23,7 @@ interface Video {
   created_at: string;
 }
 
-export default function ManageVideosScreen() {
+export default function ManageVideos() {
   const [videos, setVideos] = useState<Video[]>([]);
   const [loading, setLoading] = useState(true);
   const [category, setCategory] = useState("geral");
@@ -59,17 +59,17 @@ export default function ManageVideosScreen() {
       <Header name="Editar Vídeos" />
       <View style={styles.container}>
         <Text style={styles.title}>Gerenciar Vídeos</Text>
-
-        {/* Picker de Categoria */}
-        <Picker
-          selectedValue={category}
-          onValueChange={(value) => setCategory(value)}
-          style={styles.picker}
-        >
-          <Picker.Item label="Geral" value="geral" />
-          <Picker.Item label="Cultos" value="cultos" />
-        </Picker>
-
+        <View style={styles.pickerWrapper}>
+          {/* Picker de Categoria */}
+          <Picker
+            selectedValue={category}
+            onValueChange={(value) => setCategory(value)}
+            style={styles.picker}
+          >
+            <Picker.Item label="Geral" value="geral" />
+            <Picker.Item label="Cultos" value="cultos" />
+          </Picker>
+        </View>
         {/* Lista de Vídeos */}
         {loading ? (
           <ActivityIndicator
@@ -119,15 +119,40 @@ export default function ManageVideosScreen() {
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, padding: 16, backgroundColor: "#fff" },
-  title: { fontSize: 24, fontWeight: "bold", marginBottom: 10 },
-  picker: { backgroundColor: "#f5f5f5", borderRadius: 8, marginBottom: 10 },
+  container: {
+    flex: 1,
+    padding: 16,
+    backgroundColor: "#efefef",
+  },
+  title: {
+    fontSize: 24,
+    fontWeight: "bold",
+    marginBottom: 10,
+  },
+  pickerWrapper: {
+    backgroundColor: "#FFF",
+    borderRadius: 8,
+    marginBottom: 24,
+    elevation: 1,
+    overflow: "hidden",
+  },
+  picker: {
+    height: 50,
+    width: "100%",
+    color: "#000",
+  },
   videoItem: {
     padding: 12,
-    backgroundColor: "#f9f9f9",
+    backgroundColor: "#FFF",
     borderRadius: 8,
     marginBottom: 10,
   },
-  videoTitle: { fontSize: 18, fontWeight: "bold" },
-  videoDesc: { fontSize: 14, color: "#666" },
+  videoTitle: {
+    fontSize: 18,
+    fontWeight: "bold",
+  },
+  videoDesc: {
+    fontSize: 14,
+    color: "#666",
+  },
 });

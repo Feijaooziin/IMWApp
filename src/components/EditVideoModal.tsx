@@ -129,20 +129,30 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "rgba(0,0,0,0.7)",
     justifyContent: "center",
+    alignItems: "center",
     padding: 20,
   },
   container: {
-    backgroundColor: "#fff",
+    backgroundColor: "#FFF",
     borderRadius: 12,
     padding: 16,
+    width: "100%",
+    elevation: 5,
   },
   header: {
     flexDirection: "row",
     justifyContent: "space-between",
     marginBottom: 12,
   },
-  headerText: { fontSize: 20, fontWeight: "bold" },
-  label: { fontSize: 16, fontWeight: "600", marginTop: 8 },
+  headerText: {
+    fontSize: 24,
+    fontWeight: "bold",
+  },
+  label: {
+    fontSize: 16,
+    fontWeight: "600",
+    marginTop: 8,
+  },
   input: {
     backgroundColor: "#f5f5f5",
     borderRadius: 6,
@@ -150,10 +160,14 @@ const styles = StyleSheet.create({
     marginTop: 4,
   },
   button: {
-    padding: 12,
+    paddingVertical: 12,
     borderRadius: 6,
     alignItems: "center",
     marginTop: 10,
   },
-  buttonText: { color: "#fff", fontSize: 16, fontWeight: "bold" },
+  buttonText: {
+    color: "#fff",
+    fontSize: 16,
+    fontWeight: "bold",
+  },
 });

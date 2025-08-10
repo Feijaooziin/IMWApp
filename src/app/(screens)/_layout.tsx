@@ -155,24 +155,11 @@ export default function MainLayout() {
         />
 
         <Drawer.Screen
-          name="add-video"
-          options={{
-            drawerLabel: "Add Vídeos",
-            drawerIcon: ({ color }) => (
-              <Ionicons name="cloud-upload" size={20} color={color} />
-            ),
-            drawerItemStyle: {
-              display: role === "admin" ? "flex" : "none",
-            },
-          }}
-        />
-
-        <Drawer.Screen
-          name="manageVideos"
+          name="(admin)"
           options={{
             drawerLabel: "Editar Vídeos",
             drawerIcon: ({ color }) => (
-              <Ionicons name="videocam" size={20} color={color} />
+              <Ionicons name="cloud-upload" size={20} color={color} />
             ),
             drawerItemStyle: {
               display: role === "admin" ? "flex" : "none",
