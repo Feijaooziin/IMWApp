@@ -20,6 +20,7 @@ import { Header } from "@/components/Header";
 import { supabase } from "@/lib/supabase";
 import { useSupabaseUser } from "@/hooks/UserContext";
 import { useAuth } from "@/hooks/AuthContext";
+import { useUserRole } from "@/hooks/useUserRole";
 
 // ✅ Definição de tipo para o formulário
 type FormFields = {
@@ -46,6 +47,7 @@ type FormKeys = keyof FormFields;
 export default function Profile() {
   const { profile } = useSupabaseUser();
   const { setAuth } = useAuth();
+  const { role } = useUserRole();
   const [editMode, setEditMode] = useState(false);
   const [dateField, setDateField] = useState<FormKeys | null>(null); // ✅ agora é keyof FormFields
   const [formData, setFormData] = useState<FormFields>({
@@ -303,10 +305,14 @@ export default function Profile() {
           <Text style={styles.sectionTitle}>Dados Eclesiásticos</Text>
           <Text style={styles.label}>Situação do Membro</Text>
           <View
-            style={[styles.pickerContainer, !editMode && styles.inputDisabled]}
+            style={[
+              styles.pickerContainer,
+              !editMode && styles.inputDisabled,
+              role !== "admin" && styles.inputDisabled,
+            ]}
           >
             <Picker
-              enabled={editMode}
+              enabled={editMode && role === "admin"}
               selectedValue={formData.member_status}
               onValueChange={(val) =>
                 setFormData({ ...formData, member_status: val })
