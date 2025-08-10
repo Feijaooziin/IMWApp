@@ -41,8 +41,8 @@ export function VideoDetailsModal({ visible, video, onClose }: Props) {
       <View style={styles.overlay}>
         <View style={styles.container}>
           <View style={styles.header}>
-            <Text style={styles.title} numberOfLines={1}>
-              video.title
+            <Text style={styles.title} numberOfLines={2}>
+              {video.title}
             </Text>
             <TouchableOpacity onPress={onClose}>
               <Ionicons name="close" size={32} color="#000" />

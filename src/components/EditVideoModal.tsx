@@ -21,9 +21,10 @@ interface Props {
   visible: boolean;
   video: Video | null;
   onClose: () => void;
+  onSave: () => void;
 }
 
-export function EditVideoModal({ visible, video, onClose }: Props) {
+export function EditVideoModal({ visible, video, onClose, onSave }: Props) {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
 
@@ -49,6 +50,7 @@ export function EditVideoModal({ visible, video, onClose }: Props) {
       Alert.alert("Erro", error.message);
     } else {
       Alert.alert("Sucesso", "Vídeo atualizado com sucesso!");
+      onSave();
       onClose();
     }
   }
@@ -70,6 +72,7 @@ export function EditVideoModal({ visible, video, onClose }: Props) {
             Alert.alert("Erro", error.message);
           } else {
             Alert.alert("Sucesso", "Vídeo excluído!");
+            onSave();
             onClose();
           }
         },

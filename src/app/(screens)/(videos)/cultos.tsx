@@ -1,11 +1,19 @@
+import { useFocusEffect } from "@react-navigation/native";
+import { useCallback } from "react";
 import { View, Text, StyleSheet } from "react-native";
 import { useVideos } from "@/hooks/useVideos";
 import { DrawerSceneWrapper } from "@/components/drawer-Scene-wrapper";
 import { Header } from "@/components/Header";
 import { VideoList } from "@/components/VideoList";
 
-export default function Cultos() {
-  const { videos, loading } = useVideos("cultos");
+export default function Geral() {
+  const { videos, loading, refresh } = useVideos("cultos");
+
+  useFocusEffect(
+    useCallback(() => {
+      refresh();
+    }, [refresh])
+  );
 
   return (
     <DrawerSceneWrapper>

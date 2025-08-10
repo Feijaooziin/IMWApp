@@ -1,3 +1,5 @@
+import { useFocusEffect } from "@react-navigation/native";
+import { useCallback } from "react";
 import { View, Text, StyleSheet } from "react-native";
 import { useVideos } from "@/hooks/useVideos";
 import { DrawerSceneWrapper } from "@/components/drawer-Scene-wrapper";
@@ -5,7 +7,13 @@ import { Header } from "@/components/Header";
 import { VideoList } from "@/components/VideoList";
 
 export default function Geral() {
-  const { videos, loading } = useVideos("geral");
+  const { videos, loading, refresh } = useVideos("geral");
+
+  useFocusEffect(
+    useCallback(() => {
+      refresh();
+    }, [refresh])
+  );
 
   return (
     <DrawerSceneWrapper>

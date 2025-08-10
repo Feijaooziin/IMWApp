@@ -17,10 +17,6 @@ export function useVideos(category?: string) {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  useEffect(() => {
-    fetchVideos();
-  }, [category]);
-
   async function fetchVideos() {
     setLoading(true);
     setError(null);
@@ -38,15 +34,33 @@ export function useVideos(category?: string) {
     if (error) {
       setError(error.message);
       Alert.alert("Erro Supabase", error.message);
-    } else if (!data || data.length === 0) {
-      setVideos([]);
-      Alert.alert("Nenhum vídeo", "A lista de vídeos está vazia.");
     } else {
-      setVideos(data);
+      setVideos(data || []);
     }
 
     setLoading(false);
   }
+
+  useEffect(() => {
+    fetchVideos();
+
+    // Escuta mudanças no Supabase em tempo real
+    const channel = supabase
+      .channel("videos-changes")
+      .on(
+        "postgres_changes",
+        { event: "*", schema: "public", table: "videos" },
+        () => {
+          fetchVideos(); // recarrega a lista quando houver alteração
+        }
+      )
+      .subscribe();
+
+    // Cleanup ao desmontar
+    return () => {
+      supabase.removeChannel(channel);
+    };
+  }, [category]);
 
   return { videos, loading, error, refresh: fetchVideos };
 }

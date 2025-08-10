@@ -28,8 +28,16 @@ export function VideoList({ data, loading }: Props) {
   return (
     <View style={{ flex: 1 }}>
       <FlatList
+        showsVerticalScrollIndicator={false}
         data={data}
         keyExtractor={(item) => item.id}
+        ListEmptyComponent={() => (
+          <View style={{ padding: 20, alignItems: "center" }}>
+            <Text style={{ fontSize: 18, fontWeight: "600", color: "#777" }}>
+              Lista Vazia.
+            </Text>
+          </View>
+        )}
         renderItem={({ item }) => (
           <TouchableOpacity
             style={styles.card}

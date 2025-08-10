@@ -112,6 +112,7 @@ export default function ManageVideos() {
             setSelectedVideo(null);
             fetchVideos();
           }}
+          onSave={fetchVideos}
         />
       </View>
     </DrawerSceneWrapper>
