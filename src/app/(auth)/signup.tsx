@@ -49,6 +49,15 @@ export default function Signup() {
     setPassword("");
   }
 
+  async function handleGoogleSignIn() {
+    // const { error } = await supabase.auth.signInWithOAuth({
+    //   provider: "google",
+    // });
+    // if (error) {
+    //   alert("Erro no login: " + error.message);
+    // }
+  }
+
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <ScrollView style={{ flex: 1, backgroundColor: "#efefef" }}>
@@ -116,6 +125,24 @@ export default function Signup() {
           <TouchableOpacity style={styles.loginButton} onPress={handleSignUp}>
             <Text style={styles.loginLabel}>
               {loading ? "Carregando..." : "Cadastrar"}
+            </Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={[
+              styles.loginButton,
+              {
+                backgroundColor: "red",
+                marginTop: 16,
+                flexDirection: "row",
+                gap: 16,
+                alignItems: "center",
+              },
+            ]}
+            onPress={handleGoogleSignIn}
+          >
+            <Ionicons name="logo-google" size={24} color="white" />
+            <Text style={styles.loginLabel}>
+              {loading ? "Carregando..." : "Login com o Google"}
             </Text>
           </TouchableOpacity>
         </View>
