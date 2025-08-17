@@ -134,6 +134,7 @@ const styles = StyleSheet.create({
   container: {
     padding: 16,
     paddingBottom: 40,
+    backgroundColor: "#efefef",
   },
   label: {
     marginTop: 12,

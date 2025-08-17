@@ -76,9 +76,10 @@ export default function MembersList() {
       />
       <View style={{ flex: 1, marginLeft: 12 }}>
         <Text style={styles.name}>{item.name}</Text>
-        <Text>Status: {item.member_status}</Text>
-        <Text>Grupo: {item.group_name}</Text>
-        <Text>Ministério: {item.ministry}</Text>
+        <Text>STATUS: {item.member_status}</Text>
+        <Text>EMAIL: {item.member_status}</Text>
+        <Text>GCEU: {item.group_name}</Text>
+        <Text>MINISTÉRIO: {item.ministry}</Text>
       </View>
     </TouchableOpacity>
   );
@@ -86,9 +87,12 @@ export default function MembersList() {
   return (
     <DrawerSceneWrapper>
       <Header name="Lista de Membros" />
-      <ScrollView contentContainerStyle={styles.container}>
+      <ScrollView
+        contentContainerStyle={styles.container}
+        nestedScrollEnabled={true}
+      >
         <TextInput
-          placeholder="Buscar por nome"
+          placeholder="Buscar por nome..."
           style={styles.input}
           value={search}
           onChangeText={setSearch}
@@ -106,6 +110,7 @@ export default function MembersList() {
           keyExtractor={(item) => item.id}
           renderItem={renderMember}
           style={{ marginTop: 10 }}
+          scrollEnabled={false}
         />
 
         {/* Modal de filtros */}
@@ -229,20 +234,90 @@ export default function MembersList() {
                     <Text style={styles.sectionTitle}>
                       {selectedMember.name}
                     </Text>
-                    <Text>Email: {selectedMember.email}</Text>
-                    <Text>Status: {selectedMember.member_status}</Text>
-                    <Text>Grupo: {selectedMember.group_name}</Text>
-                    <Text>Ministério: {selectedMember.ministry}</Text>
-                    <Text>Telefone Celular: {selectedMember.phone_mobile}</Text>
-                    <Text>Telefone Fixo: {selectedMember.phone_landline}</Text>
-                    <Text>
-                      Endereço: {selectedMember.street}, {selectedMember.number}
-                    </Text>
-                    <Text>Bairro: {selectedMember.neighborhood}</Text>
-                    <Text>Cidade: {selectedMember.city}</Text>
-                    <Text>Data de Nascimento: {selectedMember.birth_date}</Text>
-                    <Text>Data de Batismo: {selectedMember.baptism_date}</Text>
-                    <Text>Membro desde: {selectedMember.entry_date}</Text>
+
+                    <View style={styles.modalSection}>
+                      <Text style={styles.modalLabel}>STATUS:</Text>
+                      <Text style={styles.modalText}>
+                        {selectedMember.member_status}
+                      </Text>
+                    </View>
+
+                    <View style={styles.modalSection}>
+                      <Text style={styles.modalLabel}>Email:</Text>
+                      <Text style={styles.modalText}>
+                        {selectedMember.email}
+                      </Text>
+                    </View>
+
+                    <View style={styles.modalSection}>
+                      <Text style={styles.modalLabel}>GCEU:</Text>
+                      <Text style={styles.modalText}>
+                        {selectedMember.group_name}
+                      </Text>
+                    </View>
+
+                    <View style={styles.modalSection}>
+                      <Text style={styles.modalLabel}>MINISTÉRIO:</Text>
+                      <Text style={styles.modalText}>
+                        {selectedMember.ministry}
+                      </Text>
+                    </View>
+
+                    <View style={styles.modalSection}>
+                      <Text style={styles.modalLabel}>TELEFONE CELULAR:</Text>
+                      <Text style={styles.modalText}>
+                        {selectedMember.phone_mobile}
+                      </Text>
+                    </View>
+
+                    <View style={styles.modalSection}>
+                      <Text style={styles.modalLabel}>TELEFONE FIXO:</Text>
+                      <Text style={styles.modalText}>
+                        {selectedMember.phone_landline}
+                      </Text>
+                    </View>
+
+                    <View style={styles.modalSection}>
+                      <Text style={styles.modalLabel}>ENDEREÇO:</Text>
+                      <Text style={styles.modalText}>
+                        {selectedMember.street}, {selectedMember.number}
+                      </Text>
+                    </View>
+
+                    <View style={styles.modalSection}>
+                      <Text style={styles.modalLabel}>BAIRRO:</Text>
+                      <Text style={styles.modalText}>
+                        {selectedMember.neighborhood}
+                      </Text>
+                    </View>
+
+                    <View style={styles.modalSection}>
+                      <Text style={styles.modalLabel}>CIDADE:</Text>
+                      <Text style={styles.modalText}>
+                        {selectedMember.city}
+                      </Text>
+                    </View>
+
+                    <View style={styles.modalSection}>
+                      <Text style={styles.modalLabel}>DATA DE NASCIMENTO:</Text>
+                      <Text style={styles.modalText}>
+                        {selectedMember.birth_date}
+                      </Text>
+                    </View>
+
+                    <View style={styles.modalSection}>
+                      <Text style={styles.modalLabel}>DATA DE BATISMO:</Text>
+                      <Text style={styles.modalText}>
+                        {selectedMember.baptism_date}
+                      </Text>
+                    </View>
+
+                    <View style={styles.modalSection}>
+                      <Text style={styles.modalLabel}>MEMBRO DESDE:</Text>
+                      <Text style={styles.modalText}>
+                        {selectedMember.entry_date}
+                      </Text>
+                    </View>
                   </>
                 )}
               </ScrollView>
@@ -255,7 +330,11 @@ export default function MembersList() {
 }
 
 const styles = StyleSheet.create({
-  container: { padding: 20, backgroundColor: "#efefef", flexGrow: 1 },
+  container: {
+    padding: 20,
+    backgroundColor: "#efefef",
+    flexGrow: 1,
+  },
   input: {
     borderWidth: 1,
     borderColor: "#999",
@@ -276,16 +355,31 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     height: 50,
   },
-  label: { fontSize: 14, fontWeight: "500", marginBottom: 4, color: "#333" },
+  label: {
+    fontSize: 14,
+    fontWeight: "500",
+    marginBottom: 4,
+    color: "#333",
+  },
   memberCard: {
+    backgroundColor: "#fff",
     flexDirection: "row",
     padding: 12,
-    borderBottomWidth: 1,
-    borderColor: "#eee",
+    borderWidth: 1,
+    borderColor: "#3333",
+    borderRadius: 12,
     alignItems: "center",
+    marginBottom: 8,
   },
-  avatar: { width: 50, height: 50, borderRadius: 25, backgroundColor: "#ddd" },
-  name: { fontWeight: "bold", fontSize: 16 },
+  avatar: {
+    width: 60,
+    height: 60,
+    borderRadius: 100,
+  },
+  name: {
+    fontWeight: "bold",
+    fontSize: 18,
+  },
   btnFilter: {
     backgroundColor: "#3b82f6",
     paddingVertical: 12,
@@ -293,10 +387,14 @@ const styles = StyleSheet.create({
     alignItems: "center",
     marginBottom: 10,
   },
-  btnText: { color: "#fff", fontSize: 16, fontWeight: "600" },
+  btnText: {
+    color: "#fff",
+    fontSize: 16,
+    fontWeight: "600",
+  },
   modalRoot: {
     flex: 1,
-    backgroundColor: "rgba(0,0,0,0.35)",
+    backgroundColor: "rgba(0,0,0,0.7)",
     justifyContent: "center",
     padding: 16,
   },
@@ -313,5 +411,25 @@ const styles = StyleSheet.create({
     alignSelf: "center",
     marginBottom: 12,
   },
-  sectionTitle: { fontSize: 18, fontWeight: "bold", marginVertical: 8 },
+  sectionTitle: {
+    fontSize: 24,
+    fontWeight: "900",
+    marginVertical: 8,
+  },
+  modalSection: {
+    flexDirection: "row",
+    gap: 4,
+    marginBottom: 6,
+    alignItems: "center",
+  },
+  modalLabel: {
+    fontSize: 16,
+    fontWeight: "900",
+    color: "#000",
+  },
+  modalText: {
+    fontSize: 14,
+    fontWeight: "500",
+    color: "#292929",
+  },
 });
