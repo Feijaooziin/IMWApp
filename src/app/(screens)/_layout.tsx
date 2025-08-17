@@ -8,7 +8,7 @@ import {
   DrawerItemList,
   DrawerItem,
 } from "@react-navigation/drawer";
-import { Ionicons } from "@expo/vector-icons";
+import { Feather, Ionicons } from "@expo/vector-icons";
 
 import { useAuth } from "@/hooks/AuthContext";
 import { supabase } from "@/lib/supabase";
@@ -62,7 +62,7 @@ export default function MainLayout() {
           drawerStyle: {
             backgroundColor: "#292929",
             paddingTop: 32,
-            width: "50%",
+            width: "55%",
           },
           drawerLabelStyle: {
             marginLeft: 8,
@@ -121,25 +121,24 @@ export default function MainLayout() {
         />
 
         <Drawer.Screen
+          name="(admin)"
+          options={{
+            drawerLabel: "Editar Vídeos",
+            drawerIcon: ({ color }) => (
+              <Ionicons name="cloud-upload" size={20} color={color} />
+            ),
+            drawerItemStyle: {
+              display: role === "admin" ? "flex" : "none",
+            },
+          }}
+        />
+
+        <Drawer.Screen
           name="bible"
           options={{
             drawerLabel: "Bíblia",
             drawerIcon: ({ color }) => (
               <Ionicons name="book" size={20} color={color} />
-            ),
-          }}
-        />
-
-        <Drawer.Screen
-          name="about"
-          options={{
-            drawerLabel: "Sobre",
-            drawerIcon: ({ color }) => (
-              <Ionicons
-                name="information-circle-sharp"
-                size={20}
-                color={color}
-              />
             ),
           }}
         />
@@ -155,15 +154,29 @@ export default function MainLayout() {
         />
 
         <Drawer.Screen
-          name="(admin)"
+          name="membersList"
           options={{
-            drawerLabel: "Editar Vídeos",
+            drawerLabel: "Lista de Membros",
             drawerIcon: ({ color }) => (
-              <Ionicons name="cloud-upload" size={20} color={color} />
+              <Feather name="users" size={20} color={color} />
             ),
             drawerItemStyle: {
               display: role === "admin" ? "flex" : "none",
             },
+          }}
+        />
+
+        <Drawer.Screen
+          name="about"
+          options={{
+            drawerLabel: "Sobre",
+            drawerIcon: ({ color }) => (
+              <Ionicons
+                name="information-circle-sharp"
+                size={20}
+                color={color}
+              />
+            ),
           }}
         />
       </Drawer>

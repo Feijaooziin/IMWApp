@@ -42,10 +42,11 @@ export default function MembersList() {
   const [filterStatus, setFilterStatus] = useState("");
   const [filterMinistry, setFilterMinistry] = useState("");
   const [selectedMember, setSelectedMember] = useState<Member | null>(null);
+  const [filtersVisible, setFiltersVisible] = useState(false);
 
   useEffect(() => {
     fetchMembers();
-  }, [search, filterGroup, filterStatus, filterMinistry]);
+  }, [search]);
 
   async function fetchMembers() {
     let query = supabase.from("users").select("*");
@@ -93,47 +94,12 @@ export default function MembersList() {
           onChangeText={setSearch}
         />
 
-        <Text style={styles.label}>Filtrar por Grupo</Text>
-        <View style={styles.pickerContainer}>
-          <Picker
-            selectedValue={filterGroup}
-            onValueChange={(val) => setFilterGroup(val)}
-          >
-            <Picker.Item label="Todos" value="" />
-            <Picker.Item label="Aliança" value="Aliança" />
-            <Picker.Item label="GCEU1" value="GCEU1" />
-            <Picker.Item label="GCEU2" value="GCEU2" />
-            <Picker.Item label="GCEU3" value="GCEU3" />
-            <Picker.Item label="GCEU4" value="GCEU4" />
-          </Picker>
-        </View>
-
-        <Text style={styles.label}>Filtrar por Status</Text>
-        <View style={styles.pickerContainer}>
-          <Picker
-            selectedValue={filterStatus}
-            onValueChange={(val) => setFilterStatus(val)}
-          >
-            <Picker.Item label="Todos" value="" />
-            <Picker.Item label="Ativo" value="Ativo" />
-            <Picker.Item label="Inativo" value="Inativo" />
-            <Picker.Item label="Ausente" value="Ausente" />
-            <Picker.Item label="Falecido" value="Falecido" />
-          </Picker>
-        </View>
-
-        <Text style={styles.label}>Filtrar por Ministério</Text>
-        <View style={styles.pickerContainer}>
-          <Picker
-            selectedValue={filterMinistry}
-            onValueChange={(val) => setFilterMinistry(val)}
-          >
-            <Picker.Item label="Todos" value="" />
-            <Picker.Item label="Louvor" value="Louvor" />
-            <Picker.Item label="Evangelismo" value="Evangelismo" />
-            <Picker.Item label="Ensino" value="Ensino" />
-          </Picker>
-        </View>
+        <TouchableOpacity
+          style={styles.btnFilter}
+          onPress={() => setFiltersVisible(true)}
+        >
+          <Text style={styles.btnText}>Filtros</Text>
+        </TouchableOpacity>
 
         <FlatList
           data={members}
@@ -142,8 +108,102 @@ export default function MembersList() {
           style={{ marginTop: 10 }}
         />
 
-        {/* Modal com detalhes do membro */}
-        <Modal visible={!!selectedMember} animationType="slide" transparent>
+        {/* Modal de filtros */}
+        <Modal visible={filtersVisible} animationType="slide" transparent>
+          <View style={styles.modalRoot}>
+            <View style={styles.modalCard}>
+              <ScrollView contentContainerStyle={{ padding: 20 }}>
+                <TouchableOpacity
+                  onPress={() => setFiltersVisible(false)}
+                  style={{ alignSelf: "flex-end", marginBottom: 10 }}
+                >
+                  <Text style={{ fontSize: 16, fontWeight: "bold" }}>
+                    Fechar
+                  </Text>
+                </TouchableOpacity>
+
+                <Text style={styles.label}>Filtrar por Grupo</Text>
+                <View style={styles.pickerContainer}>
+                  <Picker
+                    selectedValue={filterGroup}
+                    onValueChange={(val) => setFilterGroup(val)}
+                  >
+                    <Picker.Item label="Todos" value="" />
+                    <Picker.Item label="Aliança" value="Aliança" />
+                    <Picker.Item label="GCEU1" value="GCEU1" />
+                    <Picker.Item label="GCEU2" value="GCEU2" />
+                    <Picker.Item label="GCEU3" value="GCEU3" />
+                    <Picker.Item label="GCEU4" value="GCEU4" />
+                  </Picker>
+                </View>
+
+                <Text style={styles.label}>Filtrar por Status</Text>
+                <View style={styles.pickerContainer}>
+                  <Picker
+                    selectedValue={filterStatus}
+                    onValueChange={(val) => setFilterStatus(val)}
+                  >
+                    <Picker.Item label="Todos" value="" />
+                    <Picker.Item label="Ativo" value="Ativo" />
+                    <Picker.Item label="Inativo" value="Inativo" />
+                    <Picker.Item label="Ausente" value="Ausente" />
+                    <Picker.Item label="Falecido" value="Falecido" />
+                  </Picker>
+                </View>
+
+                <Text style={styles.label}>Filtrar por Ministério</Text>
+                <View style={styles.pickerContainer}>
+                  <Picker
+                    selectedValue={filterMinistry}
+                    onValueChange={(val) => setFilterMinistry(val)}
+                  >
+                    <Picker.Item label="Todos" value="" />
+                    <Picker.Item label="Louvor" value="Louvor" />
+                    <Picker.Item label="Evangelismo" value="Evangelismo" />
+                    <Picker.Item label="Ensino" value="Ensino" />
+                  </Picker>
+                </View>
+
+                {/* Botões de aplicar e resetar filtros */}
+                <TouchableOpacity
+                  style={[
+                    styles.btnFilter,
+                    { backgroundColor: "#16a34a", marginTop: 10 },
+                  ]}
+                  onPress={() => {
+                    fetchMembers();
+                    setFiltersVisible(false);
+                  }}
+                >
+                  <Text style={styles.btnText}>Aplicar Filtros</Text>
+                </TouchableOpacity>
+
+                <TouchableOpacity
+                  style={[
+                    styles.btnFilter,
+                    { backgroundColor: "#6b7280", marginTop: 10 },
+                  ]}
+                  onPress={() => {
+                    fetchMembers();
+                    setFilterGroup("");
+                    setFilterStatus("");
+                    setFilterMinistry("");
+                  }}
+                >
+                  <Text style={styles.btnText}>Resetar Filtros</Text>
+                </TouchableOpacity>
+              </ScrollView>
+            </View>
+          </View>
+        </Modal>
+
+        {/* Modal de visualização do membro */}
+        <Modal
+          visible={!!selectedMember}
+          animationType="slide"
+          transparent
+          onRequestClose={() => setSelectedMember(null)}
+        >
           <View style={styles.modalRoot}>
             <View style={styles.modalCard}>
               <ScrollView contentContainerStyle={{ padding: 20 }}>
@@ -159,12 +219,12 @@ export default function MembersList() {
                 {selectedMember && (
                   <>
                     <Image
-                      style={styles.profileImage}
                       source={
                         selectedMember.avatar_url
                           ? { uri: selectedMember.avatar_url }
                           : require("@/assets/default-avatar.png")
                       }
+                      style={styles.profileImage}
                     />
                     <Text style={styles.sectionTitle}>
                       {selectedMember.name}
@@ -176,7 +236,7 @@ export default function MembersList() {
                     <Text>Telefone Celular: {selectedMember.phone_mobile}</Text>
                     <Text>Telefone Fixo: {selectedMember.phone_landline}</Text>
                     <Text>
-                      Rua: {selectedMember.street}, {selectedMember.number}
+                      Endereço: {selectedMember.street}, {selectedMember.number}
                     </Text>
                     <Text>Bairro: {selectedMember.neighborhood}</Text>
                     <Text>Cidade: {selectedMember.city}</Text>
@@ -226,6 +286,14 @@ const styles = StyleSheet.create({
   },
   avatar: { width: 50, height: 50, borderRadius: 25, backgroundColor: "#ddd" },
   name: { fontWeight: "bold", fontSize: 16 },
+  btnFilter: {
+    backgroundColor: "#3b82f6",
+    paddingVertical: 12,
+    borderRadius: 8,
+    alignItems: "center",
+    marginBottom: 10,
+  },
+  btnText: { color: "#fff", fontSize: 16, fontWeight: "600" },
   modalRoot: {
     flex: 1,
     backgroundColor: "rgba(0,0,0,0.35)",
