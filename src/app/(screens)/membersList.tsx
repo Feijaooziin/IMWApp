@@ -49,7 +49,7 @@ export default function MembersList() {
   }, [search]);
 
   async function fetchMembers() {
-    let query = supabase.from("users").select("*");
+    let query = supabase.from("users").select("*").order("name");
 
     if (search) query = query.ilike("name", `%${search}%`);
     if (filterGroup) query = query.eq("group_name", filterGroup);
@@ -127,7 +127,7 @@ export default function MembersList() {
                   </Text>
                 </TouchableOpacity>
 
-                <Text style={styles.label}>Filtrar por Grupo</Text>
+                <Text style={styles.label}>Filtrar por GCEU</Text>
                 <View style={styles.pickerContainer}>
                   <Picker
                     selectedValue={filterGroup}
@@ -135,14 +135,13 @@ export default function MembersList() {
                   >
                     <Picker.Item label="Todos" value="" />
                     <Picker.Item label="Aliança" value="Aliança" />
-                    <Picker.Item label="GCEU1" value="GCEU1" />
-                    <Picker.Item label="GCEU2" value="GCEU2" />
-                    <Picker.Item label="GCEU3" value="GCEU3" />
-                    <Picker.Item label="GCEU4" value="GCEU4" />
+                    <Picker.Item label="Rede" value="Rede" />
+                    <Picker.Item label="Status" value="Status" />
+                    <Picker.Item label="Essência" value="Essência" />
                   </Picker>
                 </View>
 
-                <Text style={styles.label}>Filtrar por Status</Text>
+                <Text style={styles.label}>Filtrar por STATUS</Text>
                 <View style={styles.pickerContainer}>
                   <Picker
                     selectedValue={filterStatus}
@@ -156,16 +155,19 @@ export default function MembersList() {
                   </Picker>
                 </View>
 
-                <Text style={styles.label}>Filtrar por Ministério</Text>
+                <Text style={styles.label}>
+                  Filtrar por MINISTÉRIO / FUNÇÃO
+                </Text>
                 <View style={styles.pickerContainer}>
                   <Picker
                     selectedValue={filterMinistry}
                     onValueChange={(val) => setFilterMinistry(val)}
                   >
                     <Picker.Item label="Todos" value="" />
+                    <Picker.Item label="Pastor" value="Pastor" />
+                    <Picker.Item label="Presbítero" value="Presbítero" />
+                    <Picker.Item label="Líder" value="Líder" />
                     <Picker.Item label="Louvor" value="Louvor" />
-                    <Picker.Item label="Evangelismo" value="Evangelismo" />
-                    <Picker.Item label="Ensino" value="Ensino" />
                   </Picker>
                 </View>
 

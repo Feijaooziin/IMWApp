@@ -366,10 +366,9 @@ export default function Profile() {
             >
               <Picker.Item label="Selecione" value="" />
               <Picker.Item label="Aliança" value="Aliança" />
-              <Picker.Item label="GCEU1" value="GCEU1" />
-              <Picker.Item label="GCEU2" value="GCEU2" />
-              <Picker.Item label="GCEU3" value="GCEU3" />
-              <Picker.Item label="GCEU4" value="GCEU4" />
+              <Picker.Item label="Rede" value="Rede" />
+              <Picker.Item label="Status" value="Status" />
+              <Picker.Item label="Essência" value="Essência" />
             </Picker>
           </View>
 

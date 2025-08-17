@@ -19,10 +19,9 @@ interface VideoItem {
 
 interface Props {
   data: VideoItem[];
-  loading: boolean;
 }
 
-export function VideoList({ data, loading }: Props) {
+export function VideoList({ data }: Props) {
   const [selectedVideo, setSelectedVideo] = useState<VideoItem | null>(null);
 
   return (

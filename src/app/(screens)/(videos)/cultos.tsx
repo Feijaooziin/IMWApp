@@ -19,7 +19,7 @@ export default function Geral() {
     <DrawerSceneWrapper>
       <Header name="Cultos" />
       <View style={styles.container}>
-        <VideoList data={videos} loading={loading} />
+        <VideoList data={videos} />
       </View>
     </DrawerSceneWrapper>
   );

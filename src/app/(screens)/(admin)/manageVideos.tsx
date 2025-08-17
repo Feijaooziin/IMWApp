@@ -66,6 +66,7 @@ export default function ManageVideos() {
             onValueChange={(value) => setCategory(value)}
             style={styles.picker}
           >
+            <Picker.Item label="Todos" value="" />
             <Picker.Item label="Geral" value="geral" />
             <Picker.Item label="Cultos" value="cultos" />
           </Picker>
