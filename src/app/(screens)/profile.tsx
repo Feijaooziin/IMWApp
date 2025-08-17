@@ -191,6 +191,28 @@ export default function Profile() {
     </View>
   );
 
+  const renderAdminInput = (
+    label: string,
+    value: string,
+    onChange: (text: string) => void,
+    keyboardType: "default" | "email-address" | "numeric" = "default"
+  ) => (
+    <View style={{ flex: 1 }}>
+      <Text style={styles.label}>{label}</Text>
+      <TextInput
+        style={[
+          styles.pickerContainer,
+          !editMode && styles.inputDisabled,
+          role !== "admin" && styles.inputDisabled,
+        ]}
+        value={value}
+        editable={editMode && role === "admin"}
+        keyboardType={keyboardType}
+        onChangeText={onChange}
+      />
+    </View>
+  );
+
   const renderDateInput = (label: string, field: FormKeys) => (
     <View style={{ flex: 1 }}>
       <Text style={styles.label}>{label}</Text>
@@ -230,6 +252,19 @@ export default function Profile() {
                   ? { uri: formData.avatar_url }
                   : require("@/assets/default-avatar.png")
               }
+            />
+          </View>
+
+          <View style={{ flex: 1 }}>
+            <Text style={styles.label}>Situação do Membro</Text>
+            <TextInput
+              style={[
+                styles.pickerContainer,
+                !editMode && styles.inputDisabled,
+                role !== "admin" && styles.inputDisabled,
+              ]}
+              value={profile?.member_status || undefined}
+              editable={false}
             />
           </View>
 
@@ -303,7 +338,17 @@ export default function Profile() {
 
           {/* Eclesiásticos */}
           <Text style={styles.sectionTitle}>Dados Eclesiásticos</Text>
-          <Text style={styles.label}>Situação do Membro</Text>
+
+          <View style={styles.row2}>
+            {renderDateInput("Data de Batismo", "baptism_date")}
+            {renderDateInput("Membro desde", "entry_date")}
+          </View>
+
+          {renderAdminInput("Ministério / Função", formData.ministry, (t) =>
+            setFormData({ ...formData, ministry: t })
+          )}
+
+          <Text style={styles.label}>Participa de qual GCEU</Text>
           <View
             style={[
               styles.pickerContainer,
@@ -313,34 +358,6 @@ export default function Profile() {
           >
             <Picker
               enabled={editMode && role === "admin"}
-              selectedValue={formData.member_status}
-              onValueChange={(val) =>
-                setFormData({ ...formData, member_status: val })
-              }
-            >
-              <Picker.Item label="Selecione" value="" />
-              <Picker.Item label="Ativo" value="Ativo" />
-              <Picker.Item label="Inativo" value="Inativo" />
-              <Picker.Item label="Ausente" value="Ausente" />
-              <Picker.Item label="Falecido" value="Falecido" />
-            </Picker>
-          </View>
-
-          <View style={styles.row2}>
-            {renderDateInput("Data de Batismo", "baptism_date")}
-            {renderDateInput("Membro desde", "entry_date")}
-          </View>
-
-          {renderInput("Ministério / Função", formData.ministry, (t) =>
-            setFormData({ ...formData, ministry: t })
-          )}
-
-          <Text style={styles.label}>Participa de qual GCEU</Text>
-          <View
-            style={[styles.pickerContainer, !editMode && styles.inputDisabled]}
-          >
-            <Picker
-              enabled={editMode}
               selectedValue={formData.group_name}
               onValueChange={(val) =>
                 setFormData({ ...formData, group_name: val })
