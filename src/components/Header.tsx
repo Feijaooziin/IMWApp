@@ -1,4 +1,3 @@
-import { useSupabaseUser } from "@/hooks/UserContext";
 import { DrawerToggleButton } from "@react-navigation/drawer";
 import { View, Text, StyleSheet, Image, TouchableOpacity } from "react-native";
 
@@ -9,8 +8,6 @@ interface HeaderProps {
 }
 
 export function Header({ name, label, onPress }: HeaderProps) {
-  const { profile } = useSupabaseUser();
-
   return (
     <View style={styles.container}>
       <View style={styles.header}>
