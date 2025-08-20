@@ -50,6 +50,8 @@ export default function Signup() {
     setPassword("");
   }
 
+  async function handleGoogleSignUp() {}
+
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <ScrollView style={{ flex: 1, backgroundColor: "#efefef" }}>
@@ -109,9 +111,22 @@ export default function Signup() {
               secureTextEntry
             />
           </View>
+
           <TouchableOpacity style={styles.loginButton} onPress={handleSignUp}>
             <Text style={styles.loginLabel}>
               {loading ? "Carregando..." : "Cadastrar"}
+            </Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            style={[
+              styles.loginButton,
+              { backgroundColor: "red", marginTop: 16 },
+            ]}
+            onPress={handleGoogleSignUp}
+          >
+            <Text style={styles.loginLabel}>
+              {loading ? "Carregando..." : "Login com o Google"}
             </Text>
           </TouchableOpacity>
         </View>
