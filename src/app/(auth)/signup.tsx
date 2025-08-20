@@ -13,23 +13,10 @@ import {
   Alert,
 } from "react-native";
 
-import {
-  GoogleSignin,
-  GoogleSigninButton,
-  statusCodes,
-} from "@react-native-google-signin/google-signin";
-
 import { supabase } from "@/lib/supabase";
 import { useSupabaseErrorHandler } from "@/hooks/useSupabaseErrorHandler";
 
 export default function Signup() {
-  GoogleSignin.configure({
-    scopes: ["https://www.googleapis.com/auth/drive.readonly"],
-    webClientId:
-      "682310866995-231q6ikha3j4o8tqd06oa9cn85llhlsi.apps.googleusercontent.com",
-    offlineAccess: true,
-  });
-
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -61,36 +48,6 @@ export default function Signup() {
     setName("");
     setEmail("");
     setPassword("");
-  }
-
-  async function handleGoogleSignUp() {
-    try {
-      await GoogleSignin.hasPlayServices();
-      const userInfo = await GoogleSignin.signIn();
-      console.log("userInfo:", userInfo);
-      if (userInfo.data?.idToken) {
-        const { data, error } = await supabase.auth.signInWithIdToken({
-          provider: "google",
-          token: userInfo.data.idToken,
-        });
-        console.log(error, data);
-      } else {
-        throw new Error("no ID token present!");
-      }
-    } catch (error: any) {
-      if (error.code === statusCodes.SIGN_IN_CANCELLED) {
-        // user cancelled the login flow
-      } else if (error.code === statusCodes.IN_PROGRESS) {
-        // operation (e.g. sign in) is in progress already
-        console.log(error);
-      } else if (error.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
-        // play services not available or outdated
-        console.log(error);
-      } else {
-        // some other error happened
-        console.log(error);
-      }
-    }
   }
 
   return (
@@ -156,18 +113,6 @@ export default function Signup() {
           <TouchableOpacity style={styles.loginButton} onPress={handleSignUp}>
             <Text style={styles.loginLabel}>
               {loading ? "Carregando..." : "Cadastrar"}
-            </Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity
-            style={[
-              styles.loginButton,
-              { backgroundColor: "red", marginTop: 16 },
-            ]}
-            onPress={handleGoogleSignUp}
-          >
-            <Text style={styles.loginLabel}>
-              {loading ? "Carregando..." : "Login com o Google"}
             </Text>
           </TouchableOpacity>
         </View>
