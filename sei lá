@@ -1,1 +1,1 @@
-eas build -p android --profile preview
+eas build --platform android --clear-cache
