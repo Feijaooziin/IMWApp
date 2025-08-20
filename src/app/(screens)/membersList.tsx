@@ -77,7 +77,7 @@ export default function MembersList() {
       <View style={{ flex: 1, marginLeft: 12 }}>
         <Text style={styles.name}>{item.name}</Text>
         <Text>STATUS: {item.member_status}</Text>
-        <Text>EMAIL: {item.member_status}</Text>
+        <Text>EMAIL: {item.email}</Text>
         <Text>GCEU: {item.group_name}</Text>
         <Text>MINISTÉRIO: {item.ministry}</Text>
       </View>
