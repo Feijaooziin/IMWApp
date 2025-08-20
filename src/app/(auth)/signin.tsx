@@ -8,11 +8,25 @@ import {
   TextInput,
 } from "react-native";
 
+import {
+  GoogleSignin,
+  GoogleSigninButton,
+  statusCodes,
+} from "@react-native-google-signin/google-signin";
+
 import { router } from "expo-router";
 import { supabase } from "@/lib/supabase";
 import { useSupabaseErrorHandler } from "@/hooks/useSupabaseErrorHandler";
+import { Feather, Ionicons } from "@expo/vector-icons";
 
 export default function Login() {
+  GoogleSignin.configure({
+    scopes: ["https://www.googleapis.com/auth/drive.readonly"],
+    webClientId:
+      "682310866995-231q6ikha3j4o8tqd06oa9cn85llhlsi.apps.googleusercontent.com",
+    offlineAccess: true,
+  });
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
@@ -42,6 +56,36 @@ export default function Login() {
 
   function handleSignUp() {
     router.navigate("/signup");
+  }
+
+  async function handleGoogleSignUp() {
+    try {
+      await GoogleSignin.hasPlayServices();
+      const userInfo = await GoogleSignin.signIn();
+      console.log("userInfo:", userInfo);
+      if (userInfo.data?.idToken) {
+        const { data, error } = await supabase.auth.signInWithIdToken({
+          provider: "google",
+          token: userInfo.data.idToken,
+        });
+        console.log(error, data);
+      } else {
+        throw new Error("no ID token present!");
+      }
+    } catch (error: any) {
+      if (error.code === statusCodes.SIGN_IN_CANCELLED) {
+        // user cancelled the login flow
+      } else if (error.code === statusCodes.IN_PROGRESS) {
+        // operation (e.g. sign in) is in progress already
+        console.log(error);
+      } else if (error.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
+        // play services not available or outdated
+        console.log(error);
+      } else {
+        // some other error happened
+        console.log(error);
+      }
+    }
   }
 
   return (
@@ -80,6 +124,17 @@ export default function Login() {
           {loading ? "Carregando..." : "Entrar"}
         </Text>
       </TouchableOpacity>
+
+      <TouchableOpacity
+        style={styles.loginGoogleButton}
+        onPress={handleGoogleSignUp}
+      >
+        <Ionicons name="logo-google" size={20} color="white" />
+        <Text style={styles.loginLabel}>
+          {loading ? "Carregando..." : "Login com o Google"}
+        </Text>
+      </TouchableOpacity>
+
       <TouchableOpacity
         style={{ flexDirection: "row", gap: 4 }}
         onPress={handleSignUp}
@@ -166,6 +221,16 @@ const styles = StyleSheet.create({
     paddingHorizontal: 24,
     paddingVertical: 8,
     borderRadius: 10,
+  },
+
+  loginGoogleButton: {
+    backgroundColor: "red",
+    flexDirection: "row",
+    paddingHorizontal: 24,
+    paddingVertical: 8,
+    borderRadius: 10,
+    gap: 16,
+    marginTop: 16,
   },
 
   loginLabel: {
